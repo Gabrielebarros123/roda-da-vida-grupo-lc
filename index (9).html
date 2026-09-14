@@ -1,0 +1,3068 @@
+<title>Minha Roda da Vida</title>
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/4.2.1/jspdf.umd.min.js"></script>
+<style>
+/* ==========================================================================
+   MINHA RODA DA VIDA | GRUPO LC
+   Tokens, tipografia e componentes. Mobile-first.
+   ========================================================================== */
+
+@font-face-note { /* placeholder, fonts loaded via <link> in head */ }
+
+:root {
+  /* --- cor: paleta clara (padrão) --- */
+  --paper: #F7F3E9;
+  --paper-1: #FFFFFF;
+  --paper-2: #EFE9D8;
+  --line: rgba(19, 40, 74, 0.12);
+  --line-strong: rgba(19, 40, 74, 0.22);
+
+  --navy-950: #0A1626;
+  --navy-900: #0F2038;
+  --navy-800: #13284A;
+  --navy-700: #1D3A63;
+  --navy-600: #2C4870;
+  --navy-500: #47628A;
+
+  --gold-300: #E4C878;
+  --gold-500: #C9A227;
+  --gold-600: #A8841C;
+  --gold-ink: #6B5514;
+
+  --ink: #16213A;
+  --ink-soft: #47546E;
+  --ink-faint: #7A869E;
+
+  --sustain: #2E8B76;
+  --sustain-bg: #E4F1EC;
+  --balance: #3E6FA6;
+  --balance-bg: #E7EEF6;
+  --attention: #B8722E;
+  --attention-bg: #F6ECDE;
+  --reflect: #A24B42;
+  --reflect-bg: #F5E7E4;
+
+  --danger: #9C3B34;
+  --danger-bg: #FBEAE8;
+
+  /* --- superfícies derivadas --- */
+  --bg: var(--paper);
+  --surface: var(--paper-1);
+  --surface-2: var(--paper-2);
+  --text: var(--ink);
+  --text-soft: var(--ink-soft);
+  --text-faint: var(--ink-faint);
+  --accent: var(--gold-500);
+  --accent-ink: var(--gold-ink);
+  --brand: var(--navy-800);
+  --brand-ink: #FFFFFF;
+  --shadow-color: 220 45% 20%;
+
+  --radius-lg: 26px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", serif;
+  --font-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A1626;
+    --surface: #10213C;
+    --surface-2: #16294A;
+    --line: rgba(228, 200, 120, 0.14);
+    --line-strong: rgba(228, 200, 120, 0.26);
+    --text: #ECE7D8;
+    --text-soft: #B9C2D6;
+    --text-faint: #8996AF;
+    --accent: #E4C878;
+    --accent-ink: #2A2205;
+    --brand: #16294A;
+    --brand-ink: #F7F3E9;
+
+    --sustain: #59B69C;
+    --sustain-bg: rgba(89, 182, 156, 0.16);
+    --balance: #7FAAD9;
+    --balance-bg: rgba(127, 170, 217, 0.16);
+    --attention: #D89A57;
+    --attention-bg: rgba(216, 154, 87, 0.16);
+    --reflect: #D08076;
+    --reflect-bg: rgba(208, 128, 118, 0.16);
+    --danger: #E08A83;
+    --danger-bg: rgba(224, 138, 131, 0.18);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0A1626;
+  --surface: #10213C;
+  --surface-2: #16294A;
+  --line: rgba(228, 200, 120, 0.14);
+  --line-strong: rgba(228, 200, 120, 0.26);
+  --text: #ECE7D8;
+  --text-soft: #B9C2D6;
+  --text-faint: #8996AF;
+  --accent: #E4C878;
+  --accent-ink: #2A2205;
+  --brand: #16294A;
+  --brand-ink: #F7F3E9;
+
+  --sustain: #59B69C;
+  --sustain-bg: rgba(89, 182, 156, 0.16);
+  --balance: #7FAAD9;
+  --balance-bg: rgba(127, 170, 217, 0.16);
+  --attention: #D89A57;
+  --attention-bg: rgba(216, 154, 87, 0.16);
+  --reflect: #D08076;
+  --reflect-bg: rgba(208, 128, 118, 0.16);
+  --danger: #E08A83;
+  --danger-bg: rgba(224, 138, 131, 0.18);
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding: 0 16px;
+  min-height: 100vh;
+}
+
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-wrap: balance;
+  color: var(--text);
+  margin: 0;
+}
+
+p { margin: 0; }
+button { font-family: inherit; }
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px 5px 9px;
+  border-radius: 999px;
+}
+:root[data-theme="dark"] .eyebrow,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .eyebrow { color: var(--accent); } }
+
+/* ==================== layout shell ==================== */
+#app-shell {
+  max-width: 640px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-block: 14px 40px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  padding-block: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.topbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 30px;
+}
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  letter-spacing: 0.01em;
+}
+.brand-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-soft);
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 6px 4px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+.back-btn:hover { color: var(--text); }
+
+.progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-500), var(--accent));
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+}
+.progress-label {
+  font-size: 0.74rem;
+  color: var(--text-faint);
+  display: flex;
+  justify-content: space-between;
+}
+
+main#screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px;
+}
+
+.screen-anim {
+  animation: rise 0.42s cubic-bezier(.2,.7,.3,1) both;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .screen-anim { animation: none; }
+  .progress-fill { transition: none; }
+}
+
+/* ==================== card ==================== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 26px 22px;
+  box-shadow: 0 1px 2px hsl(var(--shadow-color) / 0.04), 0 18px 40px -22px hsl(var(--shadow-color) / 0.35);
+}
+@media (min-width: 560px) { .card { padding: 34px 36px; } }
+
+.card + .card { margin-top: 14px; }
+
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.stack-sm { display: flex; flex-direction: column; gap: 10px; }
+.stack-lg { display: flex; flex-direction: column; gap: 24px; }
+
+/* ==================== botões ==================== */
+.btn {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.98rem;
+  padding: 14px 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+  text-decoration: none;
+  width: 100%;
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.btn-primary {
+  background: var(--navy-800);
+  color: #fff;
+  box-shadow: 0 10px 24px -12px rgba(19, 40, 74, 0.55);
+}
+.btn-primary:hover:not(:disabled) { background: var(--navy-700); }
+:root[data-theme="dark"] .btn-primary,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 10px 24px -12px rgba(228,200,120,0.35); } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn-primary:hover:not(:disabled) { background: var(--gold-300); } }
+:root[data-theme="dark"] .btn-primary:hover:not(:disabled) { background: var(--gold-300); }
+
+.btn-gold {
+  background: var(--gold-500);
+  color: #2A2205;
+  box-shadow: 0 10px 24px -12px rgba(201, 162, 39, 0.55);
+}
+.btn-gold:hover:not(:disabled) { background: var(--gold-300); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--line-strong);
+}
+.btn-ghost:hover:not(:disabled) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+
+.btn-sm { padding: 10px 18px; font-size: 0.88rem; width: auto; }
+.btn-row { display: flex; flex-direction: column; gap: 10px; }
+@media (min-width: 480px) { .btn-row.btn-row-h { flex-direction: row; } .btn-row.btn-row-h .btn { width: auto; flex: 1; } }
+
+/* ==================== intro ==================== */
+.intro-hero { text-align: center; padding-top: 18px; }
+.intro-title { font-size: clamp(1.9rem, 7vw, 2.6rem); line-height: 1.08; }
+.intro-sub {
+  margin-top: 10px;
+  color: var(--gold-600);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: 0.95rem;
+}
+:root[data-theme="dark"] .intro-sub,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .intro-sub { color: var(--accent); } }
+.intro-copy { color: var(--text-soft); font-size: 1.02rem; max-width: 46ch; margin: 18px auto 0; }
+.intro-copy + .intro-copy { margin-top: 12px; }
+.intro-note {
+  margin-top: 22px;
+  font-size: 0.86rem;
+  color: var(--text-faint);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+}
+.intro-credit { margin-top: 18px; font-size: 0.78rem; color: var(--text-faint); }
+
+/* ==================== opção-cards (estrada / gate) ==================== */
+.option-list { display: flex; flex-direction: column; gap: 12px; }
+.option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  text-align: left;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 16px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+.option-card:hover { border-color: var(--accent); }
+.option-card:active { transform: scale(0.99); }
+.option-card.is-selected { border-color: var(--gold-500); background: color-mix(in srgb, var(--gold-500) 10%, var(--surface)); }
+.option-icon {
+  flex: none;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--navy-700);
+}
+:root[data-theme="dark"] .option-icon,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .option-icon { color: var(--accent); } }
+.option-num { font-size: 0.72rem; font-weight: 800; color: var(--text-faint); letter-spacing: 0.06em; }
+.option-title { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; margin-top: 1px; }
+.option-frase { color: var(--text-soft); font-size: 0.92rem; margin-top: 3px; }
+
+/* ==================== chips (multi-select pesos) ==================== */
+.chip-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.chip.is-selected { background: var(--navy-800); border-color: var(--navy-800); color: #fff; }
+:root[data-theme="dark"] .chip.is-selected,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chip.is-selected { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); } }
+
+textarea.field, input.field {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 13px 14px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text);
+  resize: vertical;
+}
+textarea.field:focus, input.field:focus { outline: 2px solid var(--accent); border-color: transparent; }
+.field-label { font-size: 0.86rem; font-weight: 700; color: var(--text-soft); }
+
+/* ==================== questionário por área ==================== */
+.cat-header { display: flex; align-items: center; gap: 12px; }
+.cat-icon {
+  flex: none; width: 46px; height: 46px; border-radius: 13px;
+  background: var(--navy-800); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+}
+:root[data-theme="dark"] .cat-icon,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cat-icon { background: var(--accent); color: var(--accent-ink); } }
+.cat-title { font-size: 1.3rem; }
+.cat-intro { color: var(--text-soft); font-size: 0.92rem; margin-top: 8px; }
+
+.q-row { padding-top: 6px; }
+.q-text { font-size: 0.98rem; font-weight: 600; margin-bottom: 10px; }
+
+.scale-row {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+}
+.scale-btn {
+  aspect-ratio: 1;
+  border-radius: 9px;
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text-soft);
+  font-weight: 700;
+  font-size: clamp(0.68rem, 3vw, 0.85rem);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.scale-btn.is-selected {
+  background: var(--navy-800); border-color: var(--navy-800); color: #fff;
+}
+:root[data-theme="dark"] .scale-btn.is-selected,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .scale-btn.is-selected { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); } }
+.scale-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-faint); margin-top: 6px; }
+
+/* ==================== resultado / radar ==================== */
+.result-hero { text-align: center; }
+.radar-wrap {
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+}
+canvas#radarCanvas { max-width: 100%; height: auto; }
+
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 480px) { .score-grid { grid-template-columns: 1fr 1fr; } }
+
+.score-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: var(--surface);
+}
+.score-icon { flex: none; width: 34px; height: 34px; border-radius: 10px; display:flex; align-items:center; justify-content:center; background: var(--surface-2); color: var(--navy-700); }
+:root[data-theme="dark"] .score-icon,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .score-icon { color: var(--accent); } }
+.score-body { flex: 1; min-width: 0; }
+.score-title { font-size: 0.86rem; font-weight: 700; }
+.score-bar-track { height: 5px; border-radius: 999px; background: var(--surface-2); margin-top: 6px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 999px; }
+.score-value { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; flex: none; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.68rem; font-weight: 800; letter-spacing: 0.03em;
+  padding: 3px 9px; border-radius: 999px; text-transform: uppercase;
+}
+.badge-sustain { background: var(--sustain-bg); color: var(--sustain); }
+.badge-balance { background: var(--balance-bg); color: var(--balance); }
+.badge-attention { background: var(--attention-bg); color: var(--attention); }
+.badge-reflect { background: var(--reflect-bg); color: var(--reflect); }
+
+.note-card {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+}
+
+/* ==================== devolutiva / listas de apoio ==================== */
+.ai-block { white-space: pre-wrap; font-size: 0.98rem; line-height: 1.65; color: var(--text); }
+.ai-loading { display: flex; align-items: center; gap: 10px; color: var(--text-soft); font-size: 0.92rem; }
+.dot-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
+@media (prefers-reduced-motion: reduce) { .dot-pulse { animation: none; } }
+
+.support-item { display: flex; gap: 12px; align-items: flex-start; }
+.support-item + .support-item { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.support-icon { flex: none; width: 40px; height: 40px; border-radius: 11px; background: var(--sustain-bg); color: var(--sustain); display: flex; align-items: center; justify-content: center; }
+.growth-icon { background: var(--attention-bg); color: var(--attention); }
+
+.tip-list { margin: 10px 0 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.tip-list li { display: flex; gap: 9px; font-size: 0.92rem; color: var(--text-soft); }
+.tip-list li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 8px; }
+
+.low-q-tag { font-size: 0.78rem; color: var(--text-faint); background: var(--surface-2); border-radius: 8px; padding: 6px 10px; margin-top: 8px; }
+
+/* ==================== TCC exercício / plano ==================== */
+.emotion-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.emotion-chip { border: 1.5px solid var(--line-strong); background: var(--surface); border-radius: 999px; padding: 8px 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+.emotion-chip.is-selected { background: var(--reflect); border-color: var(--reflect); color: #fff; }
+
+input[type="range"].slider { width: 100%; accent-color: var(--gold-500); height: 6px; }
+
+.socratic-item { border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px 16px; }
+.socratic-q { font-weight: 700; font-size: 0.92rem; }
+
+.plan-card {
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  background: var(--surface-2);
+}
+.plan-row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 0.9rem; }
+.plan-row:last-child { border-bottom: none; }
+.plan-row b { color: var(--text-soft); font-weight: 700; }
+.plan-row span { text-align: right; font-weight: 600; }
+
+/* ==================== chat ==================== */
+.chat-fab {
+  position: fixed;
+  right: 18px; bottom: 18px;
+  z-index: 50;
+  border-radius: 999px;
+  background: var(--navy-800);
+  color: #fff;
+  border: none;
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 700;
+  box-shadow: 0 14px 30px -12px rgba(19,40,74,0.5);
+  cursor: pointer;
+}
+:root[data-theme="dark"] .chat-fab,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chat-fab { background: var(--accent); color: var(--accent-ink); } }
+
+.chat-overlay {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(10,22,38,0.5);
+  display: flex; align-items: flex-end;
+  justify-content: center;
+}
+@media (min-width: 640px) { .chat-overlay { align-items: center; } }
+.chat-panel {
+  width: 100%; max-width: 560px;
+  max-height: 88vh;
+  background: var(--surface);
+  border-radius: 22px 22px 0 0;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+@media (min-width: 640px) { .chat-panel { border-radius: 22px; max-height: 80vh; } }
+.chat-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+.chat-body { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+.chat-msg { max-width: 86%; padding: 11px 14px; border-radius: 16px; font-size: 0.92rem; line-height: 1.5; white-space: pre-wrap; }
+.chat-msg.from-user { align-self: flex-end; background: var(--navy-800); color: #fff; border-bottom-right-radius: 4px; }
+:root[data-theme="dark"] .chat-msg.from-user,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chat-msg.from-user { background: var(--accent); color: var(--accent-ink); } }
+.chat-msg.from-ai { align-self: flex-start; background: var(--surface-2); border-bottom-left-radius: 4px; }
+.chat-suggestions { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 12px; }
+.chat-suggest-btn { font-size: 0.82rem; border: 1.5px solid var(--line-strong); background: var(--surface); border-radius: 999px; padding: 7px 13px; cursor: pointer; }
+.chat-input-row { display: flex; gap: 10px; padding: 12px 14px; border-top: 1px solid var(--line); }
+.chat-input-row input { flex: 1; }
+.chat-send { flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--navy-800); color: #fff; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+:root[data-theme="dark"] .chat-send,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chat-send { background: var(--accent); color: var(--accent-ink); } }
+.chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ==================== segurança ==================== */
+.safety-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(10,22,38,0.72);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.safety-card {
+  max-width: 460px; width: 100%;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  border: 1px solid var(--line);
+}
+.safety-icon { width: 52px; height: 52px; border-radius: 16px; background: var(--danger-bg); color: var(--danger); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.resource-item { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 0.88rem; }
+.resource-item b { font-weight: 700; }
+
+.safety-pin {
+  position: fixed; left: 14px; bottom: 14px; z-index: 45;
+  background: var(--danger-bg); color: var(--danger);
+  font-size: 0.78rem; font-weight: 700;
+  border-radius: 999px; padding: 9px 14px;
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+  cursor: pointer;
+  max-width: calc(100vw - 32px);
+}
+
+/* ==================== toast / footer ==================== */
+.footer-note {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 0.74rem;
+  color: var(--text-faint);
+  padding-bottom: 6px;
+}
+
+.center-cta { display:flex; flex-direction:column; align-items:center; text-align:center; gap: 6px; }
+
+.icon-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text-soft);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+
+::selection { background: var(--gold-300); color: #1a1608; }
+
+@media (max-width: 380px) {
+  .card { padding: 20px 16px; }
+}
+
+</style>
+
+<div id="app-shell">
+  <div class="topbar" id="topbar"><div id="topbar-inner"></div></div>
+  <main id="screen"></main>
+  <p class="footer-note">Minha Roda da Vida · Grupo LC · Esta ferramenta possui finalidade educativa e de autorreflexão e não constitui avaliação ou diagnóstico psicológico.</p>
+</div>
+
+<script>
+/* ==========================================================================
+   MINHA RODA DA VIDA | GRUPO LC — camada de dados
+   Categorias, perguntas (escala 1–10), conteúdo de apoio (TCC) e
+   listas de segurança. Nenhum texto de interpretação é tratado como
+   diagnóstico — ver ENGINE (script de motor) para a lógica de geração.
+   ========================================================================== */
+
+const RODA_META = {
+  autoria: "Baseada na Roda da Vida elaborada pela psicóloga Ana Carol Marques",
+  evento: "Grupo LC — Saúde Mental & Saúde Existencial",
+  disclaimer: "Esta ferramenta possui finalidade educativa e de autorreflexão e não constitui avaliação ou diagnóstico psicológico.",
+};
+
+/* --------------------------------------------------------------------------
+   ETAPA 1 — A estrada
+   -------------------------------------------------------------------------- */
+const ESTRADA_OPCOES = [
+  {
+    id: "tranquila",
+    numero: "01",
+    titulo: "Estrada tranquila",
+    frase: "Sinto que sigo em frente com leveza e clareza.",
+    icon: "road-clear",
+  },
+  {
+    id: "obstaculos",
+    numero: "02",
+    titulo: "Com alguns obstáculos",
+    frase: "Existem desafios, mas consigo contorná-los.",
+    icon: "road-bumps",
+  },
+  {
+    id: "buracos",
+    numero: "03",
+    titulo: "Cheia de buracos",
+    frase: "Tenho encontrado dificuldades frequentes no caminho.",
+    icon: "road-holes",
+  },
+  {
+    id: "limite",
+    numero: "04",
+    titulo: "Dirigindo no limite",
+    frase: "Estou no meu limite de energia e paciência.",
+    icon: "road-limit",
+  },
+  {
+    id: "perdido",
+    numero: "05",
+    titulo: "Não sei mais para onde estou indo",
+    frase: "Sinto-me perdido(a) quanto ao rumo da minha vida.",
+    icon: "road-fog",
+  },
+];
+
+/* --------------------------------------------------------------------------
+   ETAPA 2 — O que tem pesado
+   -------------------------------------------------------------------------- */
+const PESOS_OPCOES = [
+  { id: "trabalho", label: "Trabalho" },
+  { id: "financas", label: "Finanças" },
+  { id: "familia", label: "Família" },
+  { id: "relacionamento", label: "Relacionamento amoroso" },
+  { id: "saude", label: "Saúde" },
+  { id: "emocoes", label: "Emoções" },
+  { id: "falta_tempo", label: "Falta de tempo" },
+  { id: "futuro", label: "Futuro" },
+  { id: "solidao", label: "Solidão" },
+  { id: "sobrecarga", label: "Sobrecarga" },
+  { id: "outro", label: "Outro" },
+];
+
+/* --------------------------------------------------------------------------
+   RODA DA VIDA — 12 dimensões, 5 perguntas cada, escala 1–10
+   1 = Nunca / Discordo totalmente ... 10 = Sempre / Concordo totalmente
+   -------------------------------------------------------------------------- */
+const CATEGORIAS = [
+  {
+    id: "saude",
+    titulo: "Saúde e Disposição",
+    icon: "health",
+    intro: "Seu corpo e sua energia no dia a dia.",
+    perguntas: [
+      "Consigo me alimentar de forma saudável.",
+      "Pratico exercícios regularmente.",
+      "Consigo dormir horas suficientes.",
+      "Tenho conseguido manter meu nível de estresse equilibrado.",
+      "Tenho realizado acompanhamento médico e exames quando necessário.",
+    ],
+  },
+  {
+    id: "equilibrio_emocional",
+    titulo: "Equilíbrio Emocional",
+    icon: "balance",
+    intro: "Como você tem lidado com suas próprias reações.",
+    perguntas: [
+      "Minhas reações emocionais costumam estar de acordo com os acontecimentos.",
+      "Consigo reagir bem diante de pressão e estresse.",
+      "Consigo manter foco e postura em momentos difíceis.",
+      "Consigo me expressar de forma clara e cordial.",
+      "Consigo lidar com frustrações e expectativas.",
+    ],
+  },
+  {
+    id: "desenvolvimento",
+    titulo: "Desenvolvimento Intelectual",
+    icon: "growth",
+    intro: "Curiosidade, aprendizado e novidade.",
+    perguntas: [
+      "Participo de cursos ou treinamentos.",
+      "Tenho contato com leituras e conteúdos sobre diferentes temas.",
+      "Estou disposto(a) a experimentar atividades novas.",
+      "Procuro me manter informado(a).",
+      "Participo de conversas sobre assuntos diferentes.",
+    ],
+  },
+  {
+    id: "contribuicao_social",
+    titulo: "Contribuição Social",
+    icon: "hands",
+    intro: "O que você oferece às pessoas ao redor.",
+    perguntas: [
+      "Desejo sinceramente coisas boas para outras pessoas.",
+      "Procuro ser gentil e afetuoso(a).",
+      "Estou disposto(a) a ajudar outras pessoas.",
+      "Compartilho e ensino aquilo que sei.",
+      "Participo de ações voluntárias, doações ou outras formas de contribuição quando possível.",
+    ],
+  },
+  {
+    id: "financas",
+    titulo: "Finanças",
+    icon: "coin",
+    intro: "Sua relação com dinheiro e segurança material.",
+    perguntas: [
+      "Estou satisfeito(a) com minha situação financeira atual.",
+      "Consigo equilibrar o que ganho e o que gasto.",
+      "Tenho alguma reserva financeira para imprevistos.",
+      "Tenho conhecimento sobre como organizar ou investir meu dinheiro.",
+      "Percebo possibilidades de melhorar minha renda.",
+    ],
+  },
+  {
+    id: "realizacao_proposito",
+    titulo: "Realização e Propósito",
+    icon: "compass",
+    intro: "Carreira, crescimento e coerência com seus valores.",
+    perguntas: [
+      "Estou satisfeito(a) com minha imagem profissional.",
+      "Estou satisfeito(a) com minha carreira.",
+      "Consigo aproveitar oportunidades de crescimento.",
+      "Gosto de aprender e enfrentar novos desafios.",
+      "Percebo coerência entre aquilo que faço e meus valores.",
+    ],
+  },
+  {
+    id: "familia",
+    titulo: "Família",
+    icon: "family",
+    intro: "Vínculos e convivência familiar.",
+    perguntas: [
+      "Tenho tempo de qualidade com minha família.",
+      "Vivo momentos agradáveis com minha família.",
+      "Conseguimos lidar com conflitos.",
+      "Existe respeito por opiniões diferentes.",
+      "Existe confiança, acolhimento e apoio.",
+    ],
+  },
+  {
+    id: "relacao_amorosa",
+    titulo: "Relação Amorosa",
+    icon: "heart",
+    intro: "Intimidade, comunicação e projetos a dois.",
+    condicional: true,
+    perguntaGate: "Esta área faz sentido para você neste momento?",
+    perguntas: [
+      "Tenho tempo para viver meu relacionamento.",
+      "Existe comunicação funcional e madura.",
+      "Estou satisfeito(a) com nossa intimidade/vida sexual.",
+      "Criamos momentos agradáveis e divertidos juntos.",
+      "Compartilhamos sonhos e expectativas importantes.",
+    ],
+  },
+  {
+    id: "vida_social",
+    titulo: "Vida Social",
+    icon: "social",
+    intro: "Amizades e convívio fora de casa e do trabalho.",
+    perguntas: [
+      "Vejo ou converso com amigos com frequência satisfatória para mim.",
+      "Mantenho contato com pessoas importantes.",
+      "Estou satisfeito(a) com minhas relações de amizade.",
+      "Meus encontros e relações sociais são saudáveis.",
+      "Tenho oportunidades de conhecer novas pessoas quando desejo.",
+    ],
+  },
+  {
+    id: "espiritualidade",
+    titulo: "Espiritualidade",
+    icon: "spark",
+    intro: "Espiritualidade aqui pode significar religiosidade, reflexão, conexão com valores, sentido de vida ou práticas pessoais de contemplação.",
+    perguntas: [
+      "Tenho momentos em que consigo sentir paz.",
+      "Procuro viver de maneira coerente com aquilo em que acredito.",
+      "Consigo encontrar algum equilíbrio diante das dificuldades.",
+      "Tenho momentos de reflexão, oração, meditação ou descanso.",
+      "Tenho contato com aquilo que me proporciona sentido ou conexão.",
+    ],
+  },
+  {
+    id: "hobbies",
+    titulo: "Hobbies e Diversão",
+    icon: "play",
+    intro: "Lazer, prazer e descanso ativo.",
+    perguntas: [
+      "Tenho algum espaço na minha rotina para lazer.",
+      "Sei quais atividades me ajudam a relaxar ou me divertir.",
+      "Sinto prazer nas atividades de lazer que realizo.",
+      "Estou satisfeito(a) com a frequência do meu lazer.",
+      "Minhas atividades de lazer costumam me deixar melhor ou mais revigorado(a).",
+    ],
+  },
+  {
+    id: "plenitude",
+    titulo: "Plenitude e Felicidade",
+    icon: "sun",
+    intro: "Como você tem se sentido, de modo geral, com a própria vida.",
+    perguntas: [
+      "Consigo olhar para o futuro com algum otimismo.",
+      "Estou satisfeito(a) com aspectos importantes da minha vida atual.",
+      "Tenho momentos de alegria no meu cotidiano.",
+      "Consigo reconhecer minhas próprias capacidades.",
+      "Consigo sentir orgulho de algumas das minhas conquistas.",
+    ],
+  },
+];
+
+/* --------------------------------------------------------------------------
+   Classificação (apenas para orientar a interface, nunca um diagnóstico)
+   Escala convertida/visual: 1–10 (igual à escala de resposta)
+   -------------------------------------------------------------------------- */
+const FAIXAS = [
+  { min: 8.0, max: 10.01, id: "sustentacao", rotulo: "Área de sustentação percebida", cor: "sustain" },
+  { min: 6.0, max: 8.0, id: "equilibrada", rotulo: "Área relativamente equilibrada", cor: "balance" },
+  { min: 4.0, max: 6.0, id: "atencao", rotulo: "Área que pode merecer atenção", cor: "attention" },
+  { min: 0, max: 4.0, id: "reflexao", rotulo: "Área que merece maior reflexão", cor: "reflect" },
+];
+
+function classificarScore(media) {
+  for (const f of FAIXAS) {
+    if (media >= f.min && media < f.max) return f;
+  }
+  return FAIXAS[FAIXAS.length - 1];
+}
+
+/* --------------------------------------------------------------------------
+   Dicas por categoria — base para o motor de recomendações (regras + TCC).
+   Cada dica é pequena, concreta e não promete resultado.
+   -------------------------------------------------------------------------- */
+const DICAS_TCC = {
+  saude: [
+    "Observe, por alguns dias, quais momentos mais consomem a sua energia.",
+    "Escolha apenas um comportamento relacionado a descanso, alimentação ou movimento para experimentar nesta semana.",
+    "Evite criar várias metas de saúde ao mesmo tempo — pequenas mudanças tendem a durar mais.",
+    "Transforme \"preciso cuidar mais de mim\" em uma ação específica, com dia e horário.",
+    "Se fizer sentido, agende um exame ou consulta que esteja adiado há um tempo.",
+  ],
+  equilibrio_emocional: [
+    "Quando notar uma reação intensa, tente nomear: situação, pensamento, emoção e comportamento.",
+    "Observe se pensamentos automáticos aparecem em palavras absolutas como \"sempre\", \"nunca\" ou \"ninguém\".",
+    "Experimente uma pergunta socrática simples: \"que evidências apoiam esse pensamento, e quais não combinam com ele?\"",
+    "Antes de reagir, experimente uma pausa breve (contar até 10, respirar fundo três vezes) como um pequeno experimento comportamental.",
+    "Se o sofrimento estiver persistente ou interferindo na rotina, procurar apoio psicológico profissional pode ser um cuidado importante.",
+  ],
+  desenvolvimento: [
+    "Escolha um tema que desperte sua curiosidade e reserve 15 minutos esta semana para explorá-lo.",
+    "Experimente uma atividade nova e de baixo custo (um vídeo, um podcast, uma leitura curta).",
+    "Puxe uma conversa sobre um assunto diferente do seu dia a dia habitual.",
+    "Anote um pequeno objetivo de aprendizado para o próximo mês, algo bem específico.",
+  ],
+  contribuicao_social: [
+    "Pense em um gesto pequeno e possível de gentileza para esta semana.",
+    "Ofereça ajuda em algo específico a alguém do seu convívio.",
+    "Compartilhe um conhecimento seu com alguém que possa se beneficiar dele.",
+    "Observe como agir com gentileza afeta seu próprio humor — sem cobrar retorno.",
+  ],
+  financas: [
+    "Observe, por alguns dias, suas receitas e despesas, sem se cobrar por mudanças imediatas.",
+    "Identifique quais são seus gastos fixos e quais são variáveis.",
+    "Tente separar o que é preocupação (algo sobre o qual não há ação imediata) do que é um problema solucionável agora.",
+    "Escolha uma pequena ação financeira possível para esta semana — não precisa ser grande.",
+    "Se fizer sentido, buscar orientação profissional especializada pode ajudar nas decisões mais complexas.",
+  ],
+  realizacao_proposito: [
+    "Liste uma pequena oportunidade de crescimento que você tem evitado explorar.",
+    "Observe se há coerência entre o que você faz no trabalho e o que valoriza — e onde aparecem os maiores distanciamentos.",
+    "Escolha um novo desafio pequeno para experimentar nas próximas semanas.",
+    "Pergunte-se: \"o que eu diria para alguém de quem gosto, se estivesse na minha posição profissional?\"",
+  ],
+  familia: [
+    "Escolha um momento simples de qualidade para viver com a família nesta semana.",
+    "Observe um conflito recorrente e pense em uma forma pequena e possível de conversar sobre ele.",
+    "Pratique ouvir uma opinião diferente da sua sem interromper.",
+    "Agradeça a alguém da família por algo específico que ele(a) fez recentemente.",
+  ],
+  relacao_amorosa: [
+    "Reserve um tempo específico na agenda só para o relacionamento nesta semana.",
+    "Escolha um assunto importante para conversar com comunicação clara e sem pressa.",
+    "Planeje um momento agradável e simples para fazerem juntos.",
+    "Pergunte ao seu parceiro(a) o que ele(a) sente que precisa de você agora.",
+  ],
+  vida_social: [
+    "Escolha uma pessoa importante para reatar contato nesta semana.",
+    "Planeje um encontro simples e possível dentro da sua rotina.",
+    "Observe quais relações têm sido saudáveis e quais têm pesado mais do que somado.",
+    "Se desejar conhecer pessoas novas, escolha um ambiente ou atividade para experimentar.",
+  ],
+  espiritualidade: [
+    "Reserve alguns minutos do seu dia para uma pausa de silêncio, reflexão ou oração — o que fizer sentido para você.",
+    "Observe o que te proporciona uma sensação de sentido ou conexão, mesmo que pequena.",
+    "Experimente uma prática breve de respiração ou meditação guiada.",
+    "Pense em um valor importante para você e em uma ação concreta que expresse esse valor esta semana.",
+  ],
+  hobbies: [
+    "Liste três atividades simples que costumavam lhe proporcionar prazer.",
+    "Escolha apenas uma para experimentar nesta semana.",
+    "Reserve 20 minutos na agenda especificamente para essa atividade.",
+    "Avalie seu humor antes e depois da atividade, de 0 a 10.",
+  ],
+  plenitude: [
+    "Ao fim do dia, anote um pequeno momento de alegria ou conquista, por menor que pareça.",
+    "Reconheça uma capacidade sua que ajudou a lidar com algo recente.",
+    "Escreva uma frase sobre algo do seu passado do qual sinta orgulho.",
+    "Experimente observar seus pensamentos sobre o futuro sem julgá-los como certos ou errados — apenas nomeá-los.",
+  ],
+};
+
+/* Perguntas socráticas do mini exercício TCC */
+const PERGUNTAS_SOCRATICAS = [
+  "Quais evidências apoiam esse pensamento?",
+  "Existe alguma evidência que não combina totalmente com ele?",
+  "Estou usando palavras absolutas como \"sempre\", \"nunca\", \"ninguém\" ou \"nada\"?",
+  "Existe outra explicação possível?",
+  "O que eu diria para alguém de quem eu gosto se estivesse nessa situação?",
+  "Qual seria uma forma mais equilibrada e realista de pensar sobre isso?",
+];
+
+const EMOCOES_LISTA = [
+  "Tristeza", "Raiva", "Medo", "Ansiedade", "Culpa", "Vergonha",
+  "Frustração", "Solidão", "Cansaço", "Alívio", "Esperança", "Confusão",
+];
+
+/* --------------------------------------------------------------------------
+   Camada de segurança — independente do cálculo da Roda da Vida.
+   Listas propositalmente amplas (falsos positivos são preferíveis a
+   deixar de sinalizar um risco real). Comparação é feita sobre texto
+   normalizado (minúsculo, sem acentos).
+   -------------------------------------------------------------------------- */
+// Sempre sinalizam risco, mesmo dentro de frases maiores (baixíssima
+// ambiguidade — não fazem parte de expressões idiomáticas comuns).
+const SEGURANCA_PADROES_FORTES = [
+  "suicidio", "suicida", "tirar minha vida", "tirar a minha propria vida",
+  "acabar com a propria vida", "cortar os pulsos", "me automutilar", "automutilacao",
+  "ja tenho um plano para morrer", "separei os remedios", "comprei os remedios para morrer",
+  "vou pular", "vou me jogar na frente", "sofro violencia domestica", "apanho em casa",
+];
+
+// Podem aparecer em expressões idiomáticas comuns ("morrer/matar de rir,
+// de saudade..."); só contam quando não fazem parte de uma dessas expressões.
+const SEGURANCA_PADROES_CONTEXTUAIS = [
+  "quero morrer", "queria morrer", "vontade de morrer", "nao quero mais viver",
+  "nao aguento mais viver", "cansado de viver", "cansada de viver",
+  "melhor eu nao estar aqui", "seria melhor se eu nao existisse",
+  "penso em suicidio", "pensamentos suicidas", "ideias suicidas",
+  "quero acabar com tudo", "nao vejo sentido em viver", "sem vontade de viver",
+  "queria nao acordar", "queria desaparecer para sempre", "nao tenho mais motivo para viver",
+  "quero me matar", "vou me matar", "vou matar", "quero matar",
+  "me cortar", "me cortando", "me machucar de proposito", "me ferir de proposito",
+  "me bater de proposito", "vou machucar ele", "vou machucar ela",
+  "sofro agressao", "tenho medo de apanhar",
+];
+
+const IDIOMAS_SEGUROS_RE =
+  /(morrer|matar) de (rir|vergonha|saudades?|cansaco|fome|sede|calor|frio|medo|tesao|inveja|curiosidade|amores?|trabalhar|preguica)/g;
+
+function normalizarTexto(txt) {
+  return (txt || "")
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function detectarRisco(texto) {
+  const norm = normalizarTexto(texto);
+  if (!norm) return false;
+  if (SEGURANCA_PADROES_FORTES.some((p) => norm.includes(p))) return true;
+  const semIdiomas = norm.replace(IDIOMAS_SEGUROS_RE, " ");
+  return SEGURANCA_PADROES_CONTEXTUAIS.some((p) => semIdiomas.includes(p));
+}
+
+const RECURSOS_AJUDA = [
+  { nome: "CVV — Centro de Valorização da Vida", detalhe: "188 (ligação gratuita, 24h) · chat e e-mail em cvv.org.br" },
+  { nome: "SAMU", detalhe: "192" },
+  { nome: "Emergência", detalhe: "190" },
+  { nome: "CAPS mais próximo", detalhe: "Centro de Atenção Psicossocial da sua cidade" },
+];
+
+</script>
+<script>
+/* ==========================================================================
+   MINHA RODA DA VIDA | GRUPO LC — motor de cálculo, classificação e
+   devolutiva (regras) + montagem de prompts para a IA (capability sample).
+
+   Depende de data.js (CATEGORIAS, FAIXAS, classificarScore, DICAS_TCC, ...).
+   Nenhuma função aqui produz linguagem clínica, diagnóstica ou causal.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1) CÁLCULO DE SCORES
+   respostas: { [categoriaId]: number[5] } — escala 1–10 cada item.
+   incluidas: lista de ids de categorias a considerar (permite excluir
+   "relacao_amorosa" quando não se aplica, sem penalizar a pessoa).
+   -------------------------------------------------------------------------- */
+function calcularScores(respostas, incluidas) {
+  const resultado = {};
+  for (const cat of CATEGORIAS) {
+    if (!incluidas.includes(cat.id)) continue;
+    const notas = respostas[cat.id];
+    if (!notas || notas.length !== cat.perguntas.length) continue;
+    const soma = notas.reduce((a, b) => a + b, 0);
+    const media = soma / notas.length;
+    const mediaArred = Math.round(media * 10) / 10;
+    const faixa = classificarScore(mediaArred);
+
+    // Identifica as perguntas com menor e maior nota dentro da dimensão
+    const comIndice = notas.map((nota, i) => ({ nota, i, texto: cat.perguntas[i] }));
+    const minNota = Math.min(...notas);
+    const maxNota = Math.max(...notas);
+    const perguntasBaixas = comIndice.filter((q) => q.nota === minNota && minNota <= 6);
+    const perguntasAltas = comIndice.filter((q) => q.nota === maxNota && maxNota >= 8);
+
+    resultado[cat.id] = {
+      id: cat.id,
+      titulo: cat.titulo,
+      media: mediaArred,
+      notas,
+      faixa,
+      perguntasBaixas,
+      perguntasAltas,
+    };
+  }
+  return resultado;
+}
+
+function ordenarPorMedia(scores, direcao) {
+  const lista = Object.values(scores);
+  lista.sort((a, b) => (direcao === "desc" ? b.media - a.media : a.media - b.media));
+  return lista;
+}
+
+function topN(scores, n) {
+  return ordenarPorMedia(scores, "desc").slice(0, n);
+}
+
+function bottomN(scores, n) {
+  return ordenarPorMedia(scores, "asc").slice(0, n);
+}
+
+/* --------------------------------------------------------------------------
+   2) TEXTOS DE APOIO (SUSTENTAÇÃO / MELHORIA) — regras, sem IA.
+   Servem tanto como conteúdo final (quando a IA não está disponível)
+   quanto como material de base enviado à IA (para que ela não precise
+   "inventar" nada: apenas reorganizar e personalizar o tom).
+   -------------------------------------------------------------------------- */
+const SUPORTE_TEMPLATES = {
+  saude: "Sua disposição física percebida pode ser um recurso para sustentar energia nas demais áreas — vale observar o que a mantém assim.",
+  equilibrio_emocional: "Sua forma de lidar com emoções pode ajudar a atravessar melhor os momentos mais desafiadores de outras áreas.",
+  desenvolvimento: "Sua abertura para aprender pode ser usada como ferramenta também diante de desafios em outras frentes da vida.",
+  contribuicao_social: "Seu cuidado com as outras pessoas pode fortalecer sua rede de apoio, algo que tende a ajudar em momentos difíceis.",
+  financas: "Sua organização financeira percebida pode reduzir uma fonte comum de preocupação, liberando energia para outras áreas.",
+  realizacao_proposito: "Sua realização profissional percebida pode funcionar como uma base de identidade e propósito nos momentos mais exigentes.",
+  familia: "Seus vínculos familiares percebidos podem ser uma fonte importante de apoio também nos momentos em que outras áreas exigirem mais.",
+  relacao_amorosa: "Seu relacionamento percebido como saudável pode ser uma base de apoio emocional relevante em outros momentos da vida.",
+  vida_social: "Suas relações de amizade percebidas podem ser um recurso de apoio e distração saudável em períodos mais exigentes.",
+  espiritualidade: "Seus momentos de conexão ou sentido podem ajudar a sustentar a perspectiva em períodos mais desafiadores.",
+  hobbies: "Seus momentos de lazer percebidos podem funcionar como uma pausa recuperadora que sustenta o restante da rotina.",
+  plenitude: "Sua percepção de bem-estar geral pode ser um recurso interno importante para atravessar períodos mais exigentes.",
+};
+
+const INTERPRETACAO_ATENCAO_TEMPLATES = {
+  saude: "Pelas suas respostas, o cuidado com corpo e energia pode estar em segundo plano neste momento.",
+  equilibrio_emocional: "Pelas suas respostas, lidar com as próprias reações emocionais pode estar exigindo mais energia atualmente.",
+  desenvolvimento: "Pelas suas respostas, o espaço para aprendizado e novidade pode estar reduzido neste momento.",
+  contribuicao_social: "Pelas suas respostas, pode haver menos espaço percebido para se dedicar a outras pessoas agora.",
+  financas: "Pelas suas respostas, a relação com dinheiro pode estar gerando mais preocupação do que o habitual.",
+  realizacao_proposito: "Pelas suas respostas, a sensação de realização e propósito no trabalho pode estar mais distante neste momento.",
+  familia: "Pelas suas respostas, a convivência familiar pode estar exigindo mais atenção neste momento.",
+  relacao_amorosa: "Pelas suas respostas, o relacionamento pode estar pedindo mais tempo ou atenção neste momento.",
+  vida_social: "Pelas suas respostas, o espaço para amizades e convívio social pode estar reduzido atualmente.",
+  espiritualidade: "Pelas suas respostas, momentos de pausa, sentido ou conexão podem estar escassos neste momento.",
+  hobbies: "Pelas suas respostas, o espaço para lazer e prazer pode estar pequeno na sua rotina atual.",
+  plenitude: "Pelas suas respostas, a sensação geral de satisfação e leveza pode estar mais baixa neste momento.",
+};
+
+/* --------------------------------------------------------------------------
+   3) DEVOLUTIVA POR REGRAS (fallback sem IA / base para a IA)
+   -------------------------------------------------------------------------- */
+function juntarComE(lista) {
+  const itens = lista.filter(Boolean);
+  if (itens.length === 0) return "";
+  if (itens.length === 1) return itens[0];
+  return itens.slice(0, -1).join(", ") + " e " + itens[itens.length - 1];
+}
+
+function gerarDevolutivaRegras(ctx) {
+  const { estrada, pesos, scores } = ctx;
+  const altos = topN(scores, 3);
+  const baixos = bottomN(scores, 3);
+  const partes = [];
+
+  if (altos.length) {
+    const nomes = juntarComE(altos.map((a) => a.titulo));
+    partes.push(`Você apresenta boas pontuações em ${nomes}, que podem funcionar como recursos importantes neste momento.`);
+  }
+  if (baixos.length) {
+    const nomes = juntarComE(baixos.map((b) => b.titulo));
+    partes.push(`Por outro lado, ${nomes} aparecem com pontuações menores nesta fotografia do seu momento atual.`);
+  }
+  if (pesos && pesos.temas && pesos.temas.length) {
+    const labels = pesos.temas
+      .map((id) => (PESOS_OPCOES.find((p) => p.id === id) || {}).label)
+      .filter(Boolean);
+    if (labels.length) {
+      partes.push(`Você também contou que ${juntarComE(labels).toLowerCase()} ${labels.length > 1 ? "têm" : "tem"} pesado ultimamente.`);
+    }
+  }
+  if (altos.length && baixos.length) {
+    const diferenca = altos[0].media - baixos[0].media;
+    if (diferenca >= 3) {
+      partes.push(
+        `Vale observar que há uma diferença relevante entre ${altos[0].titulo} e ${baixos[0].titulo} — isso pode ser um convite para pensar em como a energia tem sido distribuída entre as diferentes áreas da sua vida.`
+      );
+    }
+  }
+  if (estrada) {
+    const opcao = ESTRADA_OPCOES.find((e) => e.id === estrada);
+    if (opcao) {
+      partes.push(`Sobre a sua estrada atual: você se identificou com "${opcao.titulo.toLowerCase()}" — isso pode estar relacionado ao conjunto de pontuações que você viu acima.`);
+    }
+  }
+  partes.push("Isso pode ser um convite para observar, sem pressa, como sua rotina tem distribuído energia entre responsabilidades, descanso e atividades prazerosas — não como um veredito sobre quem você é.");
+
+  return partes.join(" ");
+}
+
+function gerarPontosSustentacao(scores) {
+  return topN(scores, 3).map((item) => ({
+    id: item.id,
+    titulo: item.titulo,
+    media: item.media,
+    texto: SUPORTE_TEMPLATES[item.id] || "Esse recurso percebido pode ajudar a sustentar outras áreas da sua vida.",
+  }));
+}
+
+function gerarPontosMelhoria(scores) {
+  return bottomN(scores, 3).map((item) => {
+    const dicas = (DICAS_TCC[item.id] || []).slice(0, 5);
+    const cat = CATEGORIAS.find((c) => c.id === item.id);
+    const perguntasBaixas = item.perguntasBaixas.map((q) => q.texto);
+    return {
+      id: item.id,
+      titulo: item.titulo,
+      media: item.media,
+      faixaRotulo: item.faixa.rotulo,
+      interpretacao: INTERPRETACAO_ATENCAO_TEMPLATES[item.id] || "Pelas suas respostas, esta área pode merecer um pouco mais de atenção neste momento.",
+      perguntasBaixas,
+      dicas,
+      icon: cat ? cat.icon : "spark",
+    };
+  });
+}
+
+/* --------------------------------------------------------------------------
+   4) CONTEXTO ESTRUTURADO (compartilhado entre devolutiva, chat e PDF)
+   -------------------------------------------------------------------------- */
+function montarContextoResumo(state) {
+  const scores = state.scores || {};
+  const scoresSimples = {};
+  Object.values(scores).forEach((s) => {
+    scoresSimples[s.id] = s.media;
+  });
+  return {
+    estrada: state.estrada || null,
+    pesos: (state.pesosTemas || []).slice(),
+    pesos_detalhe: state.pesosDetalhe ? "fornecido" : null, // nunca envie o texto livre bruto sem checagem de segurança
+    scores: scoresSimples,
+    top3: topN(scores, 3).map((s) => s.id),
+    bottom3: bottomN(scores, 3).map((s) => s.id),
+    plano: state.plano
+      ? {
+          area: state.plano.area,
+          objetivo: state.plano.objetivo,
+          acao: state.plano.acao,
+        }
+      : null,
+  };
+}
+
+/* --------------------------------------------------------------------------
+   5) SYSTEM PROMPT / INSTRUÇÕES PARA O ASSISTENTE DE REFLEXÃO
+   A capability `sample` não tem "system role": estas instruções vão
+   sempre como o primeiro turno (role: user) de toda chamada.
+   -------------------------------------------------------------------------- */
+const INSTRUCOES_ASSISTENTE = `Você é o assistente de reflexão da experiência "Minha Roda da Vida", do Grupo LC, usado durante uma palestra corporativa sobre Saúde Mental e Saúde Existencial.
+
+PAPEL: apoiar a autorreflexão da pessoa com base em princípios da Terapia Cognitivo-Comportamental (TCC): psicoeducação, perguntas socráticas, resolução de problemas, ativação comportamental, definição de metas pequenas e reflexão guiada.
+
+REGRAS ABSOLUTAS:
+1. Você NUNCA realiza diagnóstico psicológico e NUNCA nomeia ou sugere transtornos mentais.
+2. Você NUNCA afirma causalidade ("isso acontece porque..."). Use apenas linguagem probabilística e hipotética.
+3. Você NUNCA inventa informação que não esteja nos dados fornecidos abaixo. Diferencie sempre FATO (o que a pessoa respondeu) de HIPÓTESE (uma interpretação possível).
+4. Você NUNCA diz frases como "Você tem...", "Isso significa que você sofre de...", "Seu problema é...". Prefira: "Pelas suas respostas...", "Pode valer a pena observar...", "Uma possibilidade é...", "Isso pode estar relacionado a...".
+5. Você NUNCA age como terapeuta, não conduz uma psicoterapia, não prescreve medicamentos e não substitui acompanhamento profissional. Quando pertinente, valorize a busca por apoio psicológico profissional como um cuidado válido, não como uma falha.
+6. Se o texto do usuário sugerir ideação suicida, autolesão, risco imediato ou violência, você deve, ANTES de qualquer outra coisa, acolher brevemente e orientar a buscar ajuda humana imediata (CVV 188, SAMU 192, emergência 190, um psiquiatra ou psicólogo, ou a rede de apoio da pessoa). Não tente conduzir sozinho(a) uma situação de risco nem continue a conversa normalmente nesse turno.
+7. Nunca use termos como "ruim", "doente", "grave", "normal" ou "anormal" para descrever pontuações.
+8. Seja acolhedor(a), objetivo(a) e breve. Evite parágrafos longos. Não prometa resultados.
+
+DADOS DISPONÍVEIS (FATOS fornecidos pela pessoa nesta sessão, em JSON):
+__CONTEXTO_JSON__
+
+Use esses dados como a única fonte de fatos. Tudo que for além disso é HIPÓTESE e deve ser sinalizado como tal.`;
+
+function construirInstrucoes(state) {
+  const ctx = montarContextoResumo(state);
+  return INSTRUCOES_ASSISTENTE.replace("__CONTEXTO_JSON__", JSON.stringify(ctx, null, 2));
+}
+
+/* --------------------------------------------------------------------------
+   6) PROMPTS ESPECÍFICOS
+   -------------------------------------------------------------------------- */
+function construirPromptDevolutiva(state, textoBaseRegras) {
+  const instrucoes = construirInstrucoes(state);
+  return (
+    instrucoes +
+    `\n\nTAREFA: Escreva uma devolutiva curta (até 130 palavras), acolhedora e objetiva sobre "o que a roda pode estar mostrando", cruzando estrada, temas que têm pesado, maiores e menores pontuações e eventuais diferenças relevantes entre dimensões. Baseie-se neste rascunho por regras (pode reorganizar e humanizar o tom, mas não invente fatos novos):\n\n"${textoBaseRegras}"\n\nResponda apenas com o texto final, sem título.`
+  );
+}
+
+function construirPromptSocraticoSugestao(situacao, pensamento, emocao) {
+  return `Contexto: mini-exercício de TCC dentro do app "Minha Roda da Vida".
+Situação relatada (FATO): ${situacao || "(não informado)"}
+Pensamento relatado (FATO): ${pensamento || "(não informado)"}
+Emoção relatada (FATO): ${emocao || "(não informado)"}
+
+TAREFA: com base SOMENTE nesses fatos, ajude a formular um possível "pensamento alternativo", mais equilibrado e realista — sem invalidar a emoção sentida e sem transformar tudo em pensamento positivo forçado. Responda em até 3 frases, linguagem hipotética ("uma forma alternativa poderia ser..."), sem diagnosticar.`;
+}
+
+function construirTurnoChatInicial(state) {
+  return { role: "user", content: construirInstrucoes(state) + "\n\nA pessoa pode iniciar a conversa a qualquer momento a partir daqui." };
+}
+
+/* --------------------------------------------------------------------------
+   7) PDF — textos auxiliares
+   -------------------------------------------------------------------------- */
+function formatarDataHoje() {
+  const d = new Date();
+  return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
+}
+
+/* --------------------------------------------------------------------------
+   8) RESUMO ANÔNIMO COMPARTILHÁVEL
+   Texto opcional que a PRÓPRIA PESSOA pode decidir copiar/enviar a quem
+   quiser (ex.: facilitador(a) da palestra). Não é coletado, salvo ou
+   enviado automaticamente por este app — nunca inclui nome, texto livre
+   pessoal (campo "o que tem pesado", exercício de TCC) ou a devolutiva
+   gerada por IA. Só números de 1 a 10 por área e os rótulos das áreas.
+   -------------------------------------------------------------------------- */
+function montarResumoCompartilhavel(state) {
+  const linhas = [];
+  linhas.push("Minha Roda da Vida | Grupo LC — resumo anônimo");
+  linhas.push(formatarDataHoje());
+  linhas.push("");
+  linhas.push("Este resumo não tem nome, e-mail ou qualquer identificação — foi gerado e compartilhado pela própria pessoa, por vontade própria.");
+  linhas.push("");
+
+  const scores = state.scores || {};
+  const ordenado = ordenarPorMedia(scores, "desc");
+  if (ordenado.length) {
+    linhas.push("Médias por área (escala 1 a 10):");
+    ordenado.forEach((item) => {
+      linhas.push(`- ${item.titulo}: ${item.media}`);
+    });
+    linhas.push("");
+  }
+
+  if (state.sustentacao && state.sustentacao.length) {
+    linhas.push(`Áreas de sustentação percebida: ${juntarComE(state.sustentacao.map((s) => s.titulo))}.`);
+  }
+  if (state.melhoria && state.melhoria.length) {
+    linhas.push(`Áreas que podem merecer mais atenção agora: ${juntarComE(state.melhoria.map((s) => s.titulo))}.`);
+  }
+  linhas.push("");
+
+  if (state.plano && state.plano.salvo && (state.plano.acao || state.plano.objetivo)) {
+    linhas.push("Meu pequeno experimento:");
+    if (state.plano.objetivo) linhas.push(`- Objetivo: ${state.plano.objetivo}`);
+    if (state.plano.acao) linhas.push(`- Ação: ${state.plano.acao}`);
+    if (state.plano.quando) linhas.push(`- Quando: ${state.plano.quando}`);
+    linhas.push("");
+  }
+
+  linhas.push("Gerado em: Minha Roda da Vida | Grupo LC (ferramenta de autorreflexão, sem diagnóstico).");
+  return linhas.join("\n");
+}
+
+</script>
+<script>
+/* ==========================================================================
+   Ícones — linha minimalista, stroke=currentColor, viewBox 0 0 24 24.
+   ========================================================================== */
+const ICONS = {
+  health: '<circle cx="12" cy="12" r="9.25"/><path d="M6.5 12.5h2.4l1.3-3 2 6 1.4-3h3.9" stroke-linejoin="round"/>',
+  balance: '<path d="M12 3.5v16.2M6.2 6.6h11.6M6.2 6.6 3.4 12.4a2.9 2.9 0 0 0 5.6 0L6.2 6.6ZM17.8 6.6l-2.8 5.8a2.9 2.9 0 0 0 5.6 0l-2.8-5.8Z"/><path d="M8.5 20.2h7"/>',
+  growth: '<path d="M5 19.5V9.2M5 19.5h14M9.6 19.5V6.4M14.2 19.5v-9M18.8 19.5v-5.8"/>',
+  hands: '<path d="M6.5 12.8 4 15.3a1.6 1.6 0 0 0 2.3 2.3l1-.9M6.5 12.8l3-3a2 2 0 0 1 2.8 0l4.4 4.4M6.5 12.8 9 10.3M17.5 11.1l2.5-2.5a1.6 1.6 0 0 0-2.3-2.3l-4.4 4.4M14.8 16.6l1.2 1.2a1.6 1.6 0 0 0 2.3-2.3l-1-1"/>',
+  coin: '<circle cx="12" cy="12" r="8.6"/><path d="M12 7.3v9.4M14.6 9.3a2.6 2.6 0 0 0-2.4-1.3c-1.6 0-2.6.8-2.6 2s1 1.6 2.6 1.9c1.6.3 2.6.8 2.6 2s-1.1 2-2.6 2a2.7 2.7 0 0 1-2.5-1.4"/>',
+  compass: '<circle cx="12" cy="12" r="9.25"/><path d="m14.8 9.2-1.6 4.4a1 1 0 0 1-.6.6l-4.4 1.6 1.6-4.4a1 1 0 0 1 .6-.6l4.4-1.6Z" stroke-linejoin="round"/>',
+  family: '<path d="M4.3 20V11l7.7-6 7.7 6v9"/><path d="M9.3 20v-6.3h5.4V20"/>',
+  heart: '<path d="M12 20.1s-7.8-4.6-9.6-9.5C1.3 7 3.6 3.9 7 3.9c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.7 3.1 4.6 6.7-1.8 4.9-9.6 9.5-9.6 9.5Z" stroke-linejoin="round"/>',
+  social: '<circle cx="8.7" cy="9.4" r="3.1"/><circle cx="16.4" cy="10.6" r="2.5"/><path d="M3.6 19.4c.5-3 2.4-4.9 5.1-4.9s4.6 1.9 5.1 4.9M13.9 19.4c.4-2.3 1.7-3.8 3.9-3.8 2.2 0 3.6 1.6 4 3.8"/>',
+  spark: '<path d="M12 3.2c.5 3.4 1.4 5.9 3.3 7.5 1.9 1.6 4.4 2.1 5.7 2.3-1.3.2-3.8.7-5.7 2.3-1.9 1.6-2.8 4.1-3.3 7.5-.5-3.4-1.4-5.9-3.3-7.5-1.9-1.6-4.4-2.1-5.7-2.3 1.3-.2 3.8-.7 5.7-2.3 1.9-1.6 2.8-4.1 3.3-7.5Z" stroke-linejoin="round"/>',
+  play: '<circle cx="12" cy="12" r="9.25"/><path d="M10 8.5 16 12l-6 3.5Z" stroke-linejoin="round"/>',
+  sun: '<circle cx="12" cy="12" r="4.3"/><path d="M12 2.9v2.4M12 18.7v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.9 12h2.4M18.7 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/>',
+  "road-clear": '<path d="M8 21 10.3 3" stroke-linecap="round"/><path d="M16 21 13.7 3" stroke-linecap="round"/><path d="M11.6 16.5h.8M11.85 11.8h.6M12.05 7.4h.4" stroke-linecap="round"/>',
+  "road-bumps": '<path d="M8 21 10.3 3" stroke-linecap="round"/><path d="M16 21 13.7 3" stroke-linecap="round"/><path d="M11.3 17.3q.9-1.6 1.8 0M11.6 12q.75-1.4 1.5 0" stroke-linecap="round"/>',
+  "road-holes": '<path d="M8 21 10.3 3" stroke-linecap="round"/><path d="M16 21 13.7 3" stroke-linecap="round"/><circle cx="11.5" cy="17" r="1.35"/><circle cx="12.6" cy="11.2" r="1"/>',
+  "road-limit": '<path d="M8 21 10.3 3" stroke-linecap="round"/><path d="M16 21 13.7 3" stroke-linecap="round"/><path d="M2.6 12.4h3M18.4 12.4h3M3.4 16.6h3M17.6 16.6h3" stroke-linecap="round" opacity=".8"/>',
+  "road-fog": '<path d="M8 21 9.6 9.2" stroke-linecap="round"/><path d="M16 21 14.4 9.2" stroke-linecap="round"/><path d="M9.6 9.2 10.3 3M14.4 9.2 13.7 3" stroke-linecap="round" opacity=".3"/><path d="M4.2 9.4h15.6M3.4 13h17.2" stroke-linecap="round" opacity=".55"/>',
+  chevronRight: '<path d="m9 5 7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>',
+  chevronLeft: '<path d="m15 5-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/>',
+  close: '<path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"/>',
+  send: '<path d="M4 12 20 4l-6.5 16-2.7-7-6.8-1Z" stroke-linejoin="round"/>',
+  download: '<path d="M12 4v11.5M7.2 11l4.8 4.8L16.8 11M5 19.5h14" stroke-linecap="round" stroke-linejoin="round"/>',
+  chat: '<path d="M4 5.5h16v11H9.8L5.2 20V16.5H4Z" stroke-linejoin="round"/>',
+  leaf: '<path d="M5 19c8-1 12.5-6 13.5-14C10.5 6 5 11 5 19Z" stroke-linejoin="round"/><path d="M6.5 17.5C10 13.8 13 10.8 17.5 6.7"/>',
+  arrowRight: '<path d="M4 12h15.5M13.5 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7" stroke-linecap="round" stroke-linejoin="round"/>',
+};
+
+function svgIcon(name, opts) {
+  const o = opts || {};
+  const size = o.size || 24;
+  const cls = o.cls ? ` class="${o.cls}"` : "";
+  const body = ICONS[name] || "";
+  return `<svg${cls} width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${o.strokeWidth || 1.6}" aria-hidden="true" focusable="false">${body}</svg>`;
+}
+
+</script>
+<script>
+/* ==========================================================================
+   MINHA RODA DA VIDA | GRUPO LC — aplicação (estado, telas, interações)
+   Depende de: data.js, engine.js, icons.js (carregados antes deste arquivo)
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------- */
+/* ESTADO                                                                   */
+/* ---------------------------------------------------------------------- */
+const STATE = {
+  screen: "intro",
+  history: [],
+  estrada: null,
+  pesosTemas: [],
+  pesosDetalhe: "",
+  relacaoAplica: null,
+  catPointer: 0,
+  respostas: {},
+  bufferCategoria: [],
+  scores: {},
+  devolutiva: { status: "idle", texto: "" },
+  sustentacao: [],
+  melhoria: [],
+  exercicio: {
+    subStep: 0,
+    situacao: "",
+    pensamento: "",
+    emocao: null,
+    intensidade: 5,
+    comportamento: "",
+    reflexoes: {},
+    alternativo: "",
+    sugestaoStatus: "idle",
+    sugestaoTexto: "",
+    voltarPara: "melhoria",
+  },
+  plano: {
+    area: "",
+    objetivo: "",
+    acao: "",
+    quando: "",
+    avaliacao: "",
+    humorAntes: 5,
+    humorDepois: null,
+    salvo: false,
+  },
+  chat: { aberto: false, mensagens: [], enviando: false, abortCtl: null },
+  shareModal: { aberto: false, texto: "" },
+  safety: { triggered: false, showOverlay: false },
+  caps: { sample: null, downloads: null, ready: false },
+};
+
+let CAPS_READY = null;
+
+async function initCapabilities() {
+  try {
+    STATE.caps.sample = window.claude ? await window.claude.use("sample") : null;
+  } catch (e) {
+    STATE.caps.sample = null;
+  }
+  try {
+    STATE.caps.downloads = window.claude ? await window.claude.use("downloads") : null;
+  } catch (e) {
+    STATE.caps.downloads = null;
+  }
+  STATE.caps.ready = true;
+}
+
+/* ---------------------------------------------------------------------- */
+/* NAVEGAÇÃO                                                                */
+/* ---------------------------------------------------------------------- */
+function irPara(tela, opts) {
+  const push = !opts || opts.push !== false;
+  if (push) STATE.history.push(STATE.screen);
+  STATE.screen = tela;
+  render();
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function voltar() {
+  if (STATE.screen === "categoria" && STATE.catPointer > 0) {
+    STATE.catPointer -= 1;
+    while (STATE.catPointer > 0 && CATEGORIAS[STATE.catPointer].condicional && STATE.relacaoAplica === false) {
+      STATE.catPointer -= 1;
+    }
+    const cat = CATEGORIAS[STATE.catPointer];
+    if (cat.condicional && STATE.relacaoAplica === null) {
+      STATE.screen = "gate";
+    } else {
+      STATE.bufferCategoria = (STATE.respostas[cat.id] || new Array(cat.perguntas.length).fill(null)).slice();
+      STATE.screen = "categoria";
+    }
+    render();
+    window.scrollTo({ top: 0, behavior: "auto" });
+    return;
+  }
+  if (STATE.screen === "gate" && STATE.catPointer > 0) {
+    STATE.catPointer -= 1;
+    const cat = CATEGORIAS[STATE.catPointer];
+    STATE.bufferCategoria = (STATE.respostas[cat.id] || new Array(cat.perguntas.length).fill(null)).slice();
+    STATE.screen = "categoria";
+    render();
+    window.scrollTo({ top: 0, behavior: "auto" });
+    return;
+  }
+  if (STATE.screen === "exercicio" && STATE.exercicio.subStep > 0) {
+    STATE.exercicio.subStep -= 1;
+    render();
+    return;
+  }
+  if (STATE.screen === "resultado" && CATEGORIAS.length > 0) {
+    STATE.catPointer = CATEGORIAS.length - 1;
+    while (STATE.catPointer > 0 && CATEGORIAS[STATE.catPointer].condicional && STATE.relacaoAplica === false) {
+      STATE.catPointer -= 1;
+    }
+    const cat = CATEGORIAS[STATE.catPointer];
+    STATE.bufferCategoria = (STATE.respostas[cat.id] || new Array(cat.perguntas.length).fill(null)).slice();
+    STATE.screen = "categoria";
+    render();
+    window.scrollTo({ top: 0, behavior: "auto" });
+    return;
+  }
+  const prev = STATE.history.pop();
+  if (prev) {
+    STATE.screen = prev;
+    render();
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* FLUXO DE CATEGORIAS (Roda da Vida)                                       */
+/* ---------------------------------------------------------------------- */
+function iniciarCategorias() {
+  STATE.catPointer = 0;
+  prepararTelaCategoriaAtual(true);
+}
+
+function prepararTelaCategoriaAtual(push) {
+  if (STATE.catPointer >= CATEGORIAS.length) {
+    finalizarQuestionario();
+    return;
+  }
+  const cat = CATEGORIAS[STATE.catPointer];
+  if (cat.condicional && STATE.relacaoAplica === null) {
+    irPara("gate", { push });
+    return;
+  }
+  if (cat.condicional && STATE.relacaoAplica === false) {
+    STATE.catPointer += 1;
+    prepararTelaCategoriaAtual(false);
+    return;
+  }
+  STATE.bufferCategoria = new Array(cat.perguntas.length).fill(null);
+  irPara("categoria", { push });
+}
+
+function avancarCategoria() {
+  const cat = CATEGORIAS[STATE.catPointer];
+  STATE.respostas[cat.id] = STATE.bufferCategoria.slice();
+  STATE.catPointer += 1;
+  prepararTelaCategoriaAtual(false);
+}
+
+function finalizarQuestionario() {
+  const incluidas = Object.keys(STATE.respostas);
+  STATE.scores = calcularScores(STATE.respostas, incluidas);
+  STATE.sustentacao = gerarPontosSustentacao(STATE.scores);
+  STATE.melhoria = gerarPontosMelhoria(STATE.scores);
+  if (!STATE.plano.area && STATE.melhoria[0]) STATE.plano.area = STATE.melhoria[0].id;
+  irPara("resultado", { push: false });
+}
+
+/* ---------------------------------------------------------------------- */
+/* SEGURANÇA                                                                */
+/* ---------------------------------------------------------------------- */
+function verificarSeguranca(texto) {
+  if (detectarRisco(texto)) {
+    STATE.safety.triggered = true;
+    STATE.safety.showOverlay = true;
+    render();
+    return true;
+  }
+  return false;
+}
+
+function fecharAvisoSeguranca() {
+  STATE.safety.showOverlay = false;
+  render();
+}
+
+/* ---------------------------------------------------------------------- */
+/* RENDER — despachante                                                     */
+/* ---------------------------------------------------------------------- */
+const screenEl = () => document.getElementById("screen");
+const topbarEl = () => document.getElementById("topbar-inner");
+
+let ultimaTelaAnimada = null;
+
+function chaveAnimacao() {
+  if (STATE.screen === "categoria") return "categoria-" + STATE.catPointer;
+  if (STATE.screen === "exercicio") return "exercicio-" + STATE.exercicio.subStep;
+  return STATE.screen;
+}
+
+function render() {
+  renderTopbar();
+  const el = screenEl();
+  el.innerHTML = SCREENS[STATE.screen] ? SCREENS[STATE.screen]() : "";
+  // A animação de entrada só roda quando a TELA (ou etapa) muda —
+  // responder a uma pergunta (que também chama render()) não deve
+  // fazer a tela "pular", e evita instabilidade de layout percebida.
+  const chave = chaveAnimacao();
+  if (chave !== ultimaTelaAnimada) {
+    el.classList.remove("screen-anim");
+    void el.offsetWidth;
+    el.classList.add("screen-anim");
+    ultimaTelaAnimada = chave;
+  }
+  afterRender();
+  renderChatFab();
+  renderSafetyLayer();
+}
+
+function progressoAtual() {
+  const ordemFixa = ["intro", "estrada", "pesos"];
+  const totalCategoriasEstimado = CATEGORIAS.length; // estimativa (gate pode reduzir em 1)
+  if (STATE.screen === "intro") return { pct: 0, label: "" };
+  if (STATE.screen === "estrada") return { pct: 6, label: "Etapa 1 de 3" };
+  if (STATE.screen === "pesos") return { pct: 12, label: "Etapa 2 de 3" };
+  if (STATE.screen === "gate" || STATE.screen === "categoria") {
+    const passo = STATE.catPointer + 1;
+    const pct = 16 + (passo / totalCategoriasEstimado) * 64;
+    return { pct, label: `Sua Roda da Vida · ${passo} de ${totalCategoriasEstimado}` };
+  }
+  if (["resultado", "devolutiva", "sustentacao", "melhoria"].includes(STATE.screen)) {
+    return { pct: 86, label: "Seu resultado" };
+  }
+  if (STATE.screen === "exercicio") return { pct: 90, label: "Entendendo um pensamento" };
+  if (STATE.screen === "plano") return { pct: 94, label: "Seu plano de ação" };
+  if (STATE.screen === "final") return { pct: 100, label: "Concluído" };
+  return { pct: 100, label: "" };
+}
+
+function renderTopbar() {
+  const t = topbarEl();
+  const p = progressoAtual();
+  const mostrarVoltar = STATE.history.length > 0 && STATE.screen !== "final";
+  t.innerHTML = `
+    <div class="topbar-row">
+      ${mostrarVoltar ? `<button class="back-btn" data-action="voltar">${svgIcon("chevronLeft", { size: 18 })} Voltar</button>` : `<div class="brand-mark"><span class="brand-dot"></span>Grupo LC</div>`}
+      ${mostrarVoltar ? `<div class="brand-mark"><span class="brand-dot"></span>Grupo LC</div>` : `<span></span>`}
+    </div>
+    ${STATE.screen === "intro" ? "" : `
+      <div class="progress-track"><div class="progress-fill" style="width:${p.pct}%"></div></div>
+      <div class="progress-label"><span>${p.label}</span><span class="tabular">${Math.round(p.pct)}%</span></div>
+    `}
+  `;
+}
+
+function afterRender() {
+  if (STATE.screen === "resultado") {
+    const canvas = document.getElementById("radarCanvas");
+    if (canvas) desenharRadar(canvas, STATE.scores);
+  }
+  if (STATE.screen === "devolutiva") {
+    garantirDevolutiva();
+  }
+  const chatBody = document.getElementById("chat-body");
+  if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+window.addEventListener(
+  "resize",
+  debounce(() => {
+    const canvas = document.getElementById("radarCanvas");
+    if (canvas && STATE.screen === "resultado") desenharRadar(canvas, STATE.scores);
+  }, 200)
+);
+if (window.matchMedia) {
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+    const canvas = document.getElementById("radarCanvas");
+    if (canvas && STATE.screen === "resultado") desenharRadar(canvas, STATE.scores);
+  });
+}
+
+function debounce(fn, ms) {
+  let h;
+  return (...args) => {
+    clearTimeout(h);
+    h = setTimeout(() => fn(...args), ms);
+  };
+}
+
+/* ---------------------------------------------------------------------- */
+/* TELAS                                                                    */
+/* ---------------------------------------------------------------------- */
+const SCREENS = {};
+
+SCREENS.intro = () => `
+  <div class="stack-lg intro-hero">
+    <div>
+      <span class="eyebrow">${svgIcon("spark", { size: 13 })} Saúde Mental · Saúde Existencial</span>
+      <h1 class="intro-title" style="margin-top:16px">Minha Roda da Vida</h1>
+    </div>
+    <div>
+      <p class="intro-copy">Esta é uma experiência de reflexão sobre o seu momento atual.</p>
+      <p class="intro-copy">Não existem respostas certas ou erradas. Responda considerando como você percebe sua vida hoje.</p>
+      <p class="intro-copy">Ao final, você receberá sua Roda da Vida personalizada, pontos de atenção, potencialidades e algumas ideias práticas para cuidar de si.</p>
+    </div>
+    <div class="intro-note">Suas respostas são pessoais e esta experiência não realiza diagnóstico psicológico. Nada é salvo em servidores — ao fechar esta página, seus dados somem.</div>
+    <div>
+      <button class="btn btn-primary" data-action="start">COMEÇAR MINHA RODA ${svgIcon("arrowRight", { size: 18 })}</button>
+      <p class="intro-credit">${RODA_META.autoria} · Grupo LC</p>
+    </div>
+  </div>
+`;
+
+SCREENS.estrada = () => `
+  <div class="stack">
+    <h2 style="font-size:1.5rem">Se sua vida fosse uma estrada, como ela estaria hoje?</h2>
+    <div class="option-list">
+      ${ESTRADA_OPCOES.map(
+        (o) => `
+        <button class="option-card${STATE.estrada === o.id ? " is-selected" : ""}" data-action="estrada-select" data-id="${o.id}">
+          <span class="option-icon">${svgIcon(o.icon, { size: 22 })}</span>
+          <span>
+            <span class="option-num">${o.numero}</span>
+            <div class="option-title">${o.titulo}</div>
+            <div class="option-frase">${o.frase}</div>
+          </span>
+        </button>`
+      ).join("")}
+    </div>
+    <button class="btn btn-primary" data-action="estrada-continuar" ${STATE.estrada ? "" : "disabled"}>Continuar ${svgIcon("arrowRight", { size: 18 })}</button>
+  </div>
+`;
+
+SCREENS.pesos = () => `
+  <div class="stack">
+    <h2 style="font-size:1.5rem">O que tem sido mais pesado na sua vida ultimamente?</h2>
+    <p style="color:var(--text-soft)">Selecione quantos fizerem sentido.</p>
+    <div class="chip-grid">
+      ${PESOS_OPCOES.map(
+        (p) => `<button class="chip${STATE.pesosTemas.includes(p.id) ? " is-selected" : ""}" data-action="pesos-toggle" data-id="${p.id}">${p.label}</button>`
+      ).join("")}
+    </div>
+    <div class="stack-sm">
+      <label class="field-label" for="pesos-detalhe">Se quiser, conte um pouco mais.</label>
+      <textarea class="field" id="pesos-detalhe" rows="3" placeholder="Escreva apenas aquilo que se sentir confortável em compartilhar...">${escapeHtml(STATE.pesosDetalhe)}</textarea>
+    </div>
+    <button class="btn btn-primary" data-action="pesos-continuar">Continuar ${svgIcon("arrowRight", { size: 18 })}</button>
+  </div>
+`;
+
+SCREENS.gate = () => {
+  const cat = CATEGORIAS[STATE.catPointer];
+  return `
+    <div class="stack">
+      <div class="cat-header">
+        <span class="cat-icon">${svgIcon(cat.icon, { size: 22 })}</span>
+        <div>
+          <div class="cat-title display">${cat.titulo}</div>
+        </div>
+      </div>
+      <div class="card">
+        <p style="font-size:1.05rem;font-weight:600">${cat.perguntaGate}</p>
+        <div class="btn-row btn-row-h" style="margin-top:18px">
+          <button class="btn btn-primary" data-action="gate-sim">Sim</button>
+          <button class="btn btn-ghost" data-action="gate-nao">Não / não se aplica</button>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+function escalaHtml(catId, qIndex, valorAtual) {
+  let botoes = "";
+  for (let v = 1; v <= 10; v++) {
+    botoes += `<button type="button" class="scale-btn${valorAtual === v ? " is-selected" : ""}" data-action="scale-select" data-q="${qIndex}" data-val="${v}" aria-label="Nota ${v}">${v}</button>`;
+  }
+  return `
+    <div class="q-row">
+      <div class="scale-row">${botoes}</div>
+      <div class="scale-labels"><span>1 · Nunca</span><span>10 · Sempre</span></div>
+    </div>
+  `;
+}
+
+SCREENS.categoria = () => {
+  const cat = CATEGORIAS[STATE.catPointer];
+  const todasRespondidas = STATE.bufferCategoria.every((v) => v !== null);
+  return `
+    <div class="stack">
+      <div class="cat-header">
+        <span class="cat-icon">${svgIcon(cat.icon, { size: 22 })}</span>
+        <div>
+          <div class="cat-title display">${cat.titulo}</div>
+        </div>
+      </div>
+      <p class="cat-intro">${cat.intro}</p>
+      <div class="stack-lg">
+        ${cat.perguntas
+          .map(
+            (texto, i) => `
+          <div>
+            <p class="q-text">${texto}</p>
+            ${escalaHtml(cat.id, i, STATE.bufferCategoria[i])}
+          </div>`
+          )
+          .join("")}
+      </div>
+      <button class="btn btn-primary" data-action="categoria-continuar" ${todasRespondidas ? "" : "disabled"}>Continuar ${svgIcon("arrowRight", { size: 18 })}</button>
+    </div>
+  `;
+};
+
+function escapeHtml(str) {
+  return (str || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+/* ---------------------------------------------------------------------- */
+/* RESULTADO — radar + cards                                               */
+/* ---------------------------------------------------------------------- */
+function shortLabel(id) {
+  const map = {
+    saude: "Saúde", equilibrio_emocional: "Emoções", desenvolvimento: "Estudo",
+    contribuicao_social: "Contrib.", financas: "Finanças", realizacao_proposito: "Carreira",
+    familia: "Família", relacao_amorosa: "Amor", vida_social: "Amizades",
+    espiritualidade: "Sentido", hobbies: "Lazer", plenitude: "Alegria",
+  };
+  return map[id] || id;
+}
+
+SCREENS.resultado = () => {
+  const ordenadas = CATEGORIAS.map((c) => STATE.scores[c.id]).filter(Boolean);
+  return `
+    <div class="stack-lg">
+      <div class="result-hero">
+        <span class="eyebrow">${svgIcon("play", { size: 13 })} Fotografia do momento</span>
+        <h2 class="display" style="font-size:1.7rem;margin-top:14px">Esta é a sua Roda da Vida</h2>
+      </div>
+      <div class="card">
+        <div class="radar-wrap"><canvas id="radarCanvas" width="320" height="320"></canvas></div>
+      </div>
+      <div class="score-grid">
+        ${ordenadas.map((s) => scoreCardHtml(s)).join("")}
+      </div>
+      <div class="note-card">Sua roda não é um diagnóstico. Ela é uma fotografia de como você percebe diferentes áreas da sua vida neste momento.</div>
+      <button class="btn btn-primary" data-action="ir-devolutiva">Ver minha devolutiva ${svgIcon("arrowRight", { size: 18 })}</button>
+    </div>
+  `;
+};
+
+function scoreCardHtml(s) {
+  const pct = Math.max(4, (s.media / 10) * 100);
+  const badgeClass = { sustentacao: "badge-sustain", equilibrada: "badge-balance", atencao: "badge-attention", reflexao: "badge-reflect" }[s.faixa.id];
+  const barColor = `var(--${s.faixa.cor})`;
+  const cat = CATEGORIAS.find((c) => c.id === s.id);
+  return `
+    <div class="score-card">
+      <span class="score-icon">${svgIcon(cat ? cat.icon : "spark", { size: 18 })}</span>
+      <div class="score-body">
+        <div class="score-title">${s.titulo}</div>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
+      </div>
+      <div class="score-value tabular">${s.media.toFixed(1)}</div>
+    </div>
+  `;
+}
+
+function hexToRgba(hex, alpha) {
+  const h = (hex || "").trim().replace("#", "");
+  if (h.length < 6) return `rgba(201,162,39,${alpha})`;
+  const r = parseInt(h.substring(0, 2), 16);
+  const g = parseInt(h.substring(2, 4), 16);
+  const b = parseInt(h.substring(4, 6), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function desenharRadar(canvas, scoresObj, opts) {
+  const o = opts || {};
+  const items = CATEGORIAS.filter((c) => scoresObj[c.id]).map((c) => scoresObj[c.id]);
+  const n = items.length;
+  if (!n) return;
+  const wrapEl = canvas.closest(".radar-wrap");
+  const cssSize = o.fixedSize || Math.max(260, Math.min(400, (wrapEl ? wrapEl.clientWidth : 320) - 4));
+  const dpr = o.fixedSize ? 2 : window.devicePixelRatio || 1;
+  const labelPad = o.fixedSize ? 46 : 60;
+  canvas.style.width = cssSize + "px";
+  canvas.style.height = cssSize + "px";
+  canvas.width = cssSize * dpr;
+  canvas.height = cssSize * dpr;
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, cssSize, cssSize);
+
+  const cs = getComputedStyle(document.documentElement);
+  const colors = o.colors || {
+    line: cs.getPropertyValue("--line").trim() || "rgba(19,40,74,.15)",
+    text: cs.getPropertyValue("--text-soft").trim() || "#47546E",
+    accent: (cs.getPropertyValue("--gold-500").trim() || "#C9A227"),
+    surface: cs.getPropertyValue("--surface").trim() || "#fff",
+    sustain: cs.getPropertyValue("--sustain").trim() || "#2E8B76",
+    balance: cs.getPropertyValue("--balance").trim() || "#3E6FA6",
+    attention: cs.getPropertyValue("--attention").trim() || "#B8722E",
+    reflect: cs.getPropertyValue("--reflect").trim() || "#A24B42",
+  };
+
+  const cx = cssSize / 2;
+  const cy = cssSize / 2;
+  const R = cssSize / 2 - labelPad;
+
+  const ringVals = [2, 4, 6, 8, 10];
+  ctx.strokeStyle = colors.line;
+  ctx.lineWidth = 1;
+  ringVals.forEach((rv) => {
+    ctx.beginPath();
+    for (let i = 0; i <= n; i++) {
+      const ang = -Math.PI / 2 + (i % n) * ((2 * Math.PI) / n);
+      const rr = R * (rv / 10);
+      const x = cx + rr * Math.cos(ang);
+      const y = cy + rr * Math.sin(ang);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  });
+
+  ctx.font = (o.fixedSize ? "600 11px" : "600 10px") + " Manrope, Arial, sans-serif";
+  items.forEach((it, i) => {
+    const ang = -Math.PI / 2 + i * ((2 * Math.PI) / n);
+    const x2 = cx + R * Math.cos(ang);
+    const y2 = cy + R * Math.sin(ang);
+    ctx.strokeStyle = colors.line;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    const lx = cx + (R + 10) * Math.cos(ang);
+    const ly = cy + (R + 10) * Math.sin(ang);
+    ctx.fillStyle = colors.text;
+    ctx.textAlign = Math.cos(ang) > 0.2 ? "left" : Math.cos(ang) < -0.2 ? "right" : "center";
+    ctx.textBaseline = Math.sin(ang) > 0.35 ? "top" : Math.sin(ang) < -0.35 ? "bottom" : "middle";
+    ctx.fillText(shortLabel(it.id), lx, ly);
+  });
+
+  ctx.beginPath();
+  items.forEach((it, i) => {
+    const ang = -Math.PI / 2 + i * ((2 * Math.PI) / n);
+    const rr = R * (Math.max(0, Math.min(10, it.media)) / 10);
+    const x = cx + rr * Math.cos(ang);
+    const y = cy + rr * Math.sin(ang);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = hexToRgba(colors.accent, 0.26);
+  ctx.fill();
+  ctx.strokeStyle = colors.accent;
+  ctx.lineWidth = 2.2;
+  ctx.stroke();
+
+  items.forEach((it, i) => {
+    const ang = -Math.PI / 2 + i * ((2 * Math.PI) / n);
+    const rr = R * (Math.max(0, Math.min(10, it.media)) / 10);
+    const x = cx + rr * Math.cos(ang);
+    const y = cy + rr * Math.sin(ang);
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fillStyle = colors[it.faixa.cor] || colors.accent;
+    ctx.fill();
+    ctx.strokeStyle = colors.surface;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+  });
+}
+
+/* ---------------------------------------------------------------------- */
+/* DEVOLUTIVA                                                               */
+/* ---------------------------------------------------------------------- */
+SCREENS.devolutiva = () => {
+  const d = STATE.devolutiva;
+  return `
+    <div class="stack-lg">
+      <div>
+        <span class="eyebrow">${svgIcon("leaf", { size: 13 })} Devolutiva</span>
+        <h2 class="display" style="font-size:1.6rem;margin-top:14px">O que sua roda pode estar mostrando?</h2>
+      </div>
+      <div class="card">
+        ${d.status === "loading" ? `<div class="ai-loading"><span class="dot-pulse"></span> Pensando com cuidado sobre suas respostas...</div>` : `<div class="ai-block">${escapeHtml(d.texto)}</div>`}
+      </div>
+      <div class="note-card">Esta leitura não é uma avaliação clínica — é um convite à reflexão, com base no que você mesmo(a) respondeu.</div>
+      <button class="btn btn-primary" data-action="ir-sustentacao" ${d.status === "loading" ? "disabled" : ""}>Continuar ${svgIcon("arrowRight", { size: 18 })}</button>
+    </div>
+  `;
+};
+
+async function garantirDevolutiva() {
+  if (STATE.devolutiva.status !== "idle") return;
+  STATE.devolutiva.status = "loading";
+  const rascunho = gerarDevolutivaRegras({ estrada: STATE.estrada, pesosTemas: STATE.pesosTemas, scores: STATE.scores });
+  await CAPS_READY;
+  if (!STATE.caps.sample) {
+    STATE.devolutiva.texto = rascunho;
+    STATE.devolutiva.status = "done";
+    if (STATE.screen === "devolutiva") render();
+    return;
+  }
+  try {
+    const prompt = construirPromptDevolutiva(STATE, rascunho);
+    const { text } = await STATE.caps.sample(prompt, {
+      modelTier: "default",
+      onText: ({ text }) => {
+        STATE.devolutiva.texto = text;
+        const box = document.querySelector("#screen .ai-block");
+        if (box) box.textContent = text;
+        else if (STATE.screen === "devolutiva") render();
+      },
+    });
+    STATE.devolutiva.texto = text;
+    STATE.devolutiva.status = "done";
+  } catch (e) {
+    STATE.devolutiva.texto = rascunho;
+    STATE.devolutiva.status = "done";
+  }
+  if (STATE.screen === "devolutiva") render();
+}
+
+/* ---------------------------------------------------------------------- */
+/* SUSTENTAÇÃO / MELHORIA                                                   */
+/* ---------------------------------------------------------------------- */
+SCREENS.sustentacao = () => `
+  <div class="stack-lg">
+    <div>
+      <span class="eyebrow">💪 Recursos percebidos</span>
+      <h2 class="display" style="font-size:1.5rem;margin-top:14px">O que está sustentando você</h2>
+    </div>
+    <div class="card">
+      ${STATE.sustentacao
+        .map(
+          (s, i) => `
+        <div class="support-item">
+          <span class="support-icon">${svgIcon(CATEGORIAS.find((c) => c.id === s.id)?.icon || "spark", { size: 18 })}</span>
+          <div>
+            <div style="font-weight:700">${s.titulo} — <span class="tabular">${s.media.toFixed(1)}</span></div>
+            <p style="color:var(--text-soft);font-size:0.92rem;margin-top:4px">${s.texto}</p>
+          </div>
+        </div>`
+        )
+        .join("")}
+    </div>
+    <button class="btn btn-primary" data-action="ir-melhoria">Continuar ${svgIcon("arrowRight", { size: 18 })}</button>
+  </div>
+`;
+
+SCREENS.melhoria = () => `
+  <div class="stack-lg">
+    <div>
+      <span class="eyebrow">🌱 Convite à reflexão</span>
+      <h2 class="display" style="font-size:1.5rem;margin-top:14px">Áreas que merecem sua atenção</h2>
+    </div>
+    ${STATE.melhoria
+      .map(
+        (m) => `
+      <div class="card">
+        <div class="support-item">
+          <span class="support-icon growth-icon">${svgIcon(m.icon, { size: 18 })}</span>
+          <div style="flex:1">
+            <div style="font-weight:700">${m.titulo} — <span class="tabular">${m.media.toFixed(1)}</span></div>
+            <p style="color:var(--text-soft);font-size:0.92rem;margin-top:4px">${m.interpretacao}</p>
+            ${m.perguntasBaixas.length ? `<div class="low-q-tag">Menor nota nesta área: "${m.perguntasBaixas[0]}"</div>` : ""}
+            <ul class="tip-list">${m.dicas.map((d) => `<li>${d}</li>`).join("")}</ul>
+          </div>
+        </div>
+      </div>`
+      )
+      .join("")}
+    <div class="card center-cta">
+      <p style="font-weight:700">Quer entender melhor uma situação específica?</p>
+      <p style="color:var(--text-soft);font-size:0.9rem">Um pequeno exercício baseado em TCC para olhar um pensamento por outro ângulo.</p>
+      <button class="btn btn-ghost" style="margin-top:10px;width:auto" data-action="abrir-exercicio">Quero entender melhor uma situação</button>
+    </div>
+    <button class="btn btn-primary" data-action="ir-plano">Montar meu pequeno experimento ${svgIcon("arrowRight", { size: 18 })}</button>
+  </div>
+`;
+
+/* ---------------------------------------------------------------------- */
+/* MINI EXERCÍCIO TCC                                                       */
+/* ---------------------------------------------------------------------- */
+function abrirExercicio(voltarPara) {
+  STATE.exercicio.subStep = 0;
+  STATE.exercicio.voltarPara = voltarPara || "melhoria";
+  irPara("exercicio");
+}
+
+SCREENS.exercicio = () => {
+  const ex = STATE.exercicio;
+  const passos = [
+    exSituacao, exPensamento, exEmocao, exComportamento, exSocratico, exAlternativo, exResumo,
+  ];
+  return passos[ex.subStep] ? passos[ex.subStep]() : "";
+};
+
+function exWrap(eyebrow, titulo, corpo, podeAvancar, acaoAvancar, textoBtn) {
+  return `
+    <div class="stack-lg">
+      <div><span class="eyebrow">${eyebrow}</span><h2 class="display" style="font-size:1.4rem;margin-top:14px">${titulo}</h2></div>
+      <div class="card">${corpo}</div>
+      <button class="btn btn-primary" data-action="${acaoAvancar}" ${podeAvancar ? "" : "disabled"}>${textoBtn || "Continuar"} ${svgIcon("arrowRight", { size: 18 })}</button>
+    </div>
+  `;
+}
+
+function exSituacao() {
+  const ex = STATE.exercicio;
+  return exWrap(
+    "🧭 Situação",
+    "O que aconteceu?",
+    `<textarea class="field" id="ex-situacao" rows="4" placeholder="Descreva a situação com o máximo de objetividade possível...">${escapeHtml(ex.situacao)}</textarea>`,
+    ex.situacao.trim().length > 0,
+    "ex-situacao-continuar"
+  );
+}
+function exPensamento() {
+  const ex = STATE.exercicio;
+  return exWrap(
+    "💭 Pensamento",
+    "O que passou pela sua cabeça naquele momento?",
+    `<textarea class="field" id="ex-pensamento" rows="4" placeholder="Escreva o pensamento como ele veio à sua mente...">${escapeHtml(ex.pensamento)}</textarea>`,
+    ex.pensamento.trim().length > 0,
+    "ex-pensamento-continuar"
+  );
+}
+function exEmocao() {
+  const ex = STATE.exercicio;
+  return exWrap(
+    "❤️ Emoção",
+    "Como você se sentiu?",
+    `
+    <div class="emotion-grid">${EMOCOES_LISTA.map((e) => `<button class="emotion-chip${ex.emocao === e ? " is-selected" : ""}" data-action="ex-emocao-select" data-e="${e}">${e}</button>`).join("")}</div>
+    <div style="margin-top:18px">
+      <div class="field-label">Intensidade: <span class="tabular">${ex.intensidade}</span>/10</div>
+      <input type="range" class="slider" id="ex-intensidade" min="0" max="10" step="1" value="${ex.intensidade}">
+    </div>`,
+    !!ex.emocao,
+    "ex-emocao-continuar"
+  );
+}
+function exComportamento() {
+  const ex = STATE.exercicio;
+  return exWrap(
+    "🎬 Comportamento",
+    "O que você fez depois?",
+    `<textarea class="field" id="ex-comportamento" rows="4" placeholder="Descreva o que você fez, disse ou evitou fazer...">${escapeHtml(ex.comportamento)}</textarea>`,
+    ex.comportamento.trim().length > 0,
+    "ex-comportamento-continuar"
+  );
+}
+function exSocratico() {
+  return exWrap(
+    "🔎 Outro ângulo",
+    "Vamos olhar para esse pensamento por outro ângulo.",
+    `<div class="stack">${PERGUNTAS_SOCRATICAS.map(
+      (p, i) => `
+      <div class="socratic-item">
+        <p class="socratic-q">${p}</p>
+        <textarea class="field" style="margin-top:8px" id="ex-refl-${i}" rows="2" data-refl="${i}">${escapeHtml(STATE.exercicio.reflexoes[i] || "")}</textarea>
+      </div>`
+    ).join("")}</div>`,
+    true,
+    "ex-socratico-continuar"
+  );
+}
+function exAlternativo() {
+  const ex = STATE.exercicio;
+  return `
+    <div class="stack-lg">
+      <div><span class="eyebrow">✍️ Pensamento alternativo</span><h2 class="display" style="font-size:1.4rem;margin-top:14px">Uma forma mais equilibrada de olhar para isso</h2></div>
+      <div class="card">
+        <textarea class="field" id="ex-alternativo" rows="4" placeholder="Escreva, com suas palavras, uma forma alternativa e mais equilibrada de pensar sobre a situação...">${escapeHtml(ex.alternativo)}</textarea>
+        <button class="btn btn-ghost btn-sm" style="margin-top:10px" data-action="ex-pedir-ajuda-ia">${svgIcon("spark", { size: 15 })} Pedir uma sugestão à IA</button>
+        ${ex.sugestaoStatus === "loading" ? `<div class="ai-loading" style="margin-top:10px"><span class="dot-pulse"></span> Pensando...</div>` : ""}
+        ${ex.sugestaoStatus === "done" ? `<div class="note-card" style="margin-top:10px">${escapeHtml(ex.sugestaoTexto)}</div>` : ""}
+        ${ex.sugestaoStatus === "unavailable" ? `<div class="note-card" style="margin-top:10px">A sugestão por IA não está disponível nesta sessão — tudo bem seguir só com suas próprias palavras.</div>` : ""}
+      </div>
+      <button class="btn btn-primary" data-action="ex-finalizar" ${ex.alternativo.trim().length > 0 ? "" : "disabled"}>Ver resumo ${svgIcon("arrowRight", { size: 18 })}</button>
+    </div>
+  `;
+}
+function exResumo() {
+  const ex = STATE.exercicio;
+  return `
+    <div class="stack-lg">
+      <div><span class="eyebrow">${svgIcon("check", { size: 13 })} Registro</span><h2 class="display" style="font-size:1.4rem;margin-top:14px">Seu exercício</h2></div>
+      <div class="card stack">
+        <div><div class="field-label">Situação</div><p>${escapeHtml(ex.situacao)}</p></div>
+        <div><div class="field-label">Pensamento inicial</div><p>${escapeHtml(ex.pensamento)}</p></div>
+        <div><div class="field-label">Emoção</div><p>${escapeHtml(ex.emocao || "")} · intensidade ${ex.intensidade}/10</p></div>
+        <div><div class="field-label">Pensamento alternativo</div><p>${escapeHtml(ex.alternativo)}</p></div>
+      </div>
+      <p style="color:var(--text-soft);font-size:0.9rem;text-align:center">Você não precisa resolver tudo agora — só de olhar por outro ângulo já é um passo.</p>
+      <button class="btn btn-primary" data-action="ex-concluir">Voltar para meu resultado ${svgIcon("arrowRight", { size: 18 })}</button>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------------------- */
+/* PLANO DE AÇÃO — Meu pequeno experimento                                  */
+/* ---------------------------------------------------------------------- */
+SCREENS.plano = () => {
+  const p = STATE.plano;
+  const opcoes = CATEGORIAS.filter((c) => STATE.scores[c.id]);
+  if (!p.salvo) {
+    return `
+      <div class="stack-lg">
+        <div><span class="eyebrow">🌱 Meu pequeno experimento</span><h2 class="display" style="font-size:1.5rem;margin-top:14px">Qual área você gostaria de cuidar primeiro?</h2></div>
+        <div class="card stack">
+          <select class="field" id="plano-area">
+            ${opcoes.map((c) => `<option value="${c.id}" ${p.area === c.id ? "selected" : ""}>${c.titulo}</option>`).join("")}
+          </select>
+          <div class="stack-sm"><label class="field-label">O que gostaria que estivesse um pouco diferente?</label><textarea class="field" id="plano-objetivo" rows="2">${escapeHtml(p.objetivo)}</textarea></div>
+          <div class="stack-sm"><label class="field-label">O que seria uma pequena ação possível nos próximos 7 dias?</label><textarea class="field" id="plano-acao" rows="2">${escapeHtml(p.acao)}</textarea></div>
+          <div class="stack-sm"><label class="field-label">Quando pretende experimentar?</label><input class="field" id="plano-quando" value="${escapeHtml(p.quando)}" placeholder="Ex.: quinta-feira à noite"></div>
+          <div class="stack-sm"><label class="field-label">Como saberá se essa ação ajudou?</label><textarea class="field" id="plano-avaliacao" rows="2">${escapeHtml(p.avaliacao)}</textarea></div>
+          <div><div class="field-label">Humor antes: <span class="tabular">${p.humorAntes}</span>/10</div><input type="range" class="slider" id="plano-humor-antes" min="0" max="10" value="${p.humorAntes}"></div>
+        </div>
+        <button class="btn btn-primary" data-action="plano-salvar">Criar meu experimento ${svgIcon("arrowRight", { size: 18 })}</button>
+        <button class="btn btn-ghost" data-action="ir-final">Prefiro pular esta etapa por agora</button>
+      </div>
+    `;
+  }
+  const cat = CATEGORIAS.find((c) => c.id === p.area);
+  return `
+    <div class="stack-lg">
+      <div><span class="eyebrow">🌱 Meu experimento da semana</span><h2 class="display" style="font-size:1.5rem;margin-top:14px">Seu pequeno experimento está pronto</h2></div>
+      <div class="plan-card">
+        <div class="plan-row"><b>Área</b><span>${cat ? cat.titulo : ""}</span></div>
+        <div class="plan-row"><b>Objetivo</b><span>${escapeHtml(p.objetivo)}</span></div>
+        <div class="plan-row"><b>Pequena ação</b><span>${escapeHtml(p.acao)}</span></div>
+        <div class="plan-row"><b>Quando</b><span>${escapeHtml(p.quando)}</span></div>
+        <div class="plan-row"><b>Como vou avaliar</b><span>${escapeHtml(p.avaliacao)}</span></div>
+        <div class="plan-row"><b>Humor antes</b><span class="tabular">${p.humorAntes}/10</span></div>
+      </div>
+      <div class="card">
+        <div class="field-label">Depois de experimentar, como ficou seu humor? (opcional)</div>
+        <input type="range" class="slider" id="plano-humor-depois" min="0" max="10" value="${p.humorDepois ?? p.humorAntes}">
+        <div class="tabular" style="text-align:right;color:var(--text-soft);font-size:0.85rem;margin-top:4px">${p.humorDepois ?? p.humorAntes}/10</div>
+      </div>
+      <button class="btn btn-primary" data-action="ir-final">Concluir minha jornada ${svgIcon("arrowRight", { size: 18 })}</button>
+    </div>
+  `;
+};
+
+/* ---------------------------------------------------------------------- */
+/* TELA FINAL                                                               */
+/* ---------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------- */
+/* CHAT                                                                     */
+/* ---------------------------------------------------------------------- */
+const CHAT_SUGESTOES = [
+  "Por onde eu deveria começar?",
+  "Por que essa área ficou mais baixa?",
+  "Como posso cuidar melhor dessa área?",
+  "Quero entender um pensamento que tenho.",
+  "Me ajude a transformar isso em uma meta pequena.",
+];
+
+function renderChatFab() {
+  let fab = document.getElementById("chat-fab");
+  const podeMostrar = ["resultado", "devolutiva", "sustentacao", "melhoria", "plano", "final"].includes(STATE.screen);
+  if (!podeMostrar || STATE.chat.aberto) {
+    if (fab) fab.remove();
+    return;
+  }
+  if (!fab) {
+    fab = document.createElement("button");
+    fab.id = "chat-fab";
+    fab.className = "chat-fab";
+    fab.setAttribute("data-action", "abrir-chat");
+    fab.innerHTML = `${svgIcon("chat", { size: 18 })} Conversar`;
+    document.body.appendChild(fab);
+  }
+}
+
+function renderSafetyLayer() {
+  let pin = document.getElementById("safety-pin");
+  if (STATE.safety.triggered && !STATE.safety.showOverlay) {
+    if (!pin) {
+      pin = document.createElement("button");
+      pin.id = "safety-pin";
+      pin.className = "safety-pin";
+      pin.setAttribute("data-action", "reabrir-seguranca");
+      pin.textContent = "💛 Ver rede de apoio";
+      document.body.appendChild(pin);
+    }
+  } else if (pin) {
+    pin.remove();
+  }
+
+  let overlay = document.getElementById("safety-overlay");
+  if (STATE.safety.showOverlay) {
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.id = "safety-overlay";
+      overlay.className = "safety-overlay";
+      document.body.appendChild(overlay);
+    }
+    overlay.innerHTML = `
+      <div class="safety-card">
+        <div class="safety-icon">${svgIcon("heart", { size: 24 })}</div>
+        <h3 style="font-size:1.15rem">Antes de continuar, seu bem-estar importa mais do que qualquer questionário.</h3>
+        <p style="color:var(--text-soft);margin-top:10px;font-size:0.93rem">Pelo que você escreveu, pode ser importante conversar com alguém agora. Você não precisa passar por isso sozinho(a) — buscar ajuda é um cuidado, não uma fraqueza.</p>
+        <div style="margin-top:6px">
+          ${RECURSOS_AJUDA.map((r) => `<div class="resource-item"><b>${r.nome}</b><span>${r.detalhe}</span></div>`).join("")}
+        </div>
+        <button class="btn btn-primary" style="margin-top:18px" data-action="fechar-seguranca">Continuar minha jornada</button>
+      </div>
+    `;
+  } else if (overlay) {
+    overlay.remove();
+  }
+}
+
+function abrirChat() {
+  STATE.chat.aberto = true;
+  renderChatFab();
+  let overlay = document.getElementById("chat-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "chat-overlay";
+    overlay.className = "chat-overlay";
+    document.body.appendChild(overlay);
+  }
+  renderChatPanel();
+}
+
+function fecharChat() {
+  STATE.chat.aberto = false;
+  const overlay = document.getElementById("chat-overlay");
+  if (overlay) overlay.remove();
+  renderChatFab();
+}
+
+/* ---------------------------------------------------------------------- */
+/* RESUMO ANÔNIMO COMPARTILHÁVEL (opcional, iniciado pela própria pessoa)   */
+/* Nada aqui é salvo, enviado ou visto por ninguém automaticamente — só     */
+/* existe se a própria pessoa decidir copiar e enviar o texto por conta     */
+/* própria (ex.: para quem conduziu a palestra).                           */
+/* ---------------------------------------------------------------------- */
+function abrirResumoCompartilhavel() {
+  STATE.shareModal.texto = montarResumoCompartilhavel(STATE);
+  STATE.shareModal.aberto = true;
+  let overlay = document.getElementById("share-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "share-overlay";
+    overlay.className = "chat-overlay";
+    document.body.appendChild(overlay);
+  }
+  renderShareModal();
+}
+
+function fecharResumoCompartilhavel() {
+  STATE.shareModal.aberto = false;
+  const overlay = document.getElementById("share-overlay");
+  if (overlay) overlay.remove();
+}
+
+function renderShareModal() {
+  const overlay = document.getElementById("share-overlay");
+  if (!overlay) return;
+  overlay.innerHTML = `
+    <div class="chat-panel">
+      <div class="chat-head">
+        <strong>Compartilhar meu resumo (opcional)</strong>
+        <button class="icon-btn" data-action="fechar-compartilhar">${svgIcon("close", { size: 16 })}</button>
+      </div>
+      <div class="chat-body">
+        <p style="color:var(--text-soft);font-size:0.88rem;margin:0">Quem decide se isso é compartilhado é só você. Não tem nome, e-mail ou qualquer texto pessoal que você escreveu — apenas as médias por área (1 a 10) e, se você preencheu, seu pequeno experimento. Revise abaixo, copie e envie por onde quiser (WhatsApp, e-mail etc.).</p>
+        <textarea id="share-textarea" readonly rows="12" style="width:100%;font-family:inherit;font-size:0.84rem;line-height:1.5;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);resize:vertical">${escapeHtml(STATE.shareModal.texto)}</textarea>
+        <button class="btn btn-primary" data-action="copiar-resumo" style="width:100%">${svgIcon("download", { size: 16 })} Copiar resumo</button>
+      </div>
+    </div>
+  `;
+  const ta = document.getElementById("share-textarea");
+  if (ta) {
+    ta.focus();
+    ta.select();
+  }
+}
+
+async function copiarResumoCompartilhavel() {
+  const texto = STATE.shareModal.texto || "";
+  const ta = document.getElementById("share-textarea");
+  if (ta) ta.select();
+  let ok = false;
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(texto);
+      ok = true;
+    }
+  } catch (e) {
+    ok = false;
+  }
+  if (!ok) {
+    try {
+      ok = document.execCommand && document.execCommand("copy");
+    } catch (e) {
+      ok = false;
+    }
+  }
+  mostrarToast(ok ? "Resumo copiado! Cole onde quiser compartilhar." : "Não consegui copiar automaticamente — selecione o texto acima e copie manualmente.");
+}
+
+function renderChatPanel() {
+  const overlay = document.getElementById("chat-overlay");
+  if (!overlay) return;
+  const semIA = STATE.caps.ready && !STATE.caps.sample;
+  overlay.innerHTML = `
+    <div class="chat-panel">
+      <div class="chat-head">
+        <div style="font-weight:700">${svgIcon("chat", { size: 18 })} Conversar sobre minha Roda</div>
+        <button class="icon-btn" data-action="fechar-chat">${svgIcon("close", { size: 16 })}</button>
+      </div>
+      <div class="chat-body" id="chat-body">
+        ${STATE.chat.mensagens.length === 0 ? `<div class="chat-msg from-ai">Oi! Podemos conversar sobre o que apareceu na sua Roda da Vida. Este espaço usa reflexão guiada — não substitui acompanhamento profissional.</div>` : ""}
+        ${STATE.chat.mensagens
+          .map((m) => `<div class="chat-msg from-${m.role === "user" ? "user" : "ai"}">${escapeHtml(m.content)}</div>`)
+          .join("")}
+        ${STATE.chat.enviando ? `<div class="chat-msg from-ai ai-loading"><span class="dot-pulse"></span> Pensando...</div>` : ""}
+      </div>
+      ${
+        semIA
+          ? `<div class="note-card" style="margin:0 18px 14px">A conversa por IA não está disponível nesta sessão. Use as reflexões da sua devolutiva e das áreas de atenção como guia — e considere conversar com alguém de confiança ou um(a) profissional.</div>`
+          : `
+      <div class="chat-suggestions">${CHAT_SUGESTOES.map((s) => `<button class="chat-suggest-btn" data-action="chat-sugestao" data-msg="${escapeHtml(s)}">${s}</button>`).join("")}</div>
+      <div class="chat-input-row">
+        <input class="field" id="chat-input" placeholder="Escreva sua mensagem..." ${STATE.chat.enviando ? "disabled" : ""}>
+        <button class="chat-send" data-action="chat-enviar" ${STATE.chat.enviando ? "disabled" : ""}>${svgIcon("send", { size: 18 })}</button>
+      </div>`
+      }
+    </div>
+  `;
+  const body = document.getElementById("chat-body");
+  if (body) body.scrollTop = body.scrollHeight;
+}
+
+async function enviarMensagemChat(texto) {
+  const msg = (texto || "").trim();
+  if (!msg || STATE.chat.enviando) return;
+  if (verificarSeguranca(msg)) return;
+  STATE.chat.mensagens.push({ role: "user", content: msg });
+  STATE.chat.enviando = true;
+  renderChatPanel();
+  await CAPS_READY;
+  if (!STATE.caps.sample) {
+    STATE.chat.enviando = false;
+    STATE.chat.mensagens.push({ role: "assistant", content: "A conversa por IA não está disponível nesta sessão. Reveja sua devolutiva e as áreas de atenção — elas trazem sugestões concretas para começar." });
+    renderChatPanel();
+    return;
+  }
+  try {
+    const instrucoes = { role: "user", content: construirInstrucoes(STATE) };
+    const turnos = [instrucoes, ...STATE.chat.mensagens];
+    const ctl = new AbortController();
+    STATE.chat.abortCtl = ctl;
+    STATE.chat.mensagens.push({ role: "assistant", content: "" });
+    const idx = STATE.chat.mensagens.length - 1;
+    const { text } = await STATE.caps.sample(turnos, {
+      cache: false,
+      signal: ctl.signal,
+      modelTier: "default",
+      onText: ({ text }) => {
+        STATE.chat.mensagens[idx].content = text;
+        renderChatPanel();
+      },
+    });
+    STATE.chat.mensagens[idx].content = text;
+  } catch (e) {
+    const last = STATE.chat.mensagens[STATE.chat.mensagens.length - 1];
+    if (last && last.role === "assistant" && !last.content) {
+      last.content = "Não consegui responder agora. Tudo bem tentar de novo em instantes, ou seguir com as sugestões da sua devolutiva.";
+    }
+  }
+  STATE.chat.enviando = false;
+  renderChatPanel();
+}
+
+SCREENS.final = () => `
+  <div class="stack-lg" style="text-align:center;padding-top:10px">
+    <span class="eyebrow">${svgIcon("sun", { size: 13 })} Você chegou até aqui</span>
+    <p class="display" style="font-size:1.35rem;line-height:1.4;max-width:40ch;margin:14px auto 0">Você não precisa mudar tudo de uma vez.</p>
+    <p style="color:var(--text-soft);max-width:44ch;margin:0 auto">Escolher uma pequena ação possível já pode ser uma forma de começar a cuidar daquilo que hoje pede mais atenção.</p>
+    <div class="stack" style="margin-top:10px">
+      <button class="btn btn-gold" data-action="baixar-pdf">${svgIcon("download", { size: 18 })} BAIXAR MINHA RODA DA VIDA</button>
+      <button class="btn btn-primary" data-action="abrir-chat">${svgIcon("chat", { size: 18 })} Conversar sobre meu resultado</button>
+      <button class="btn btn-ghost" data-action="compartilhar-resumo">${svgIcon("send", { size: 18 })} Compartilhar meu resumo (opcional)</button>
+      <button class="btn btn-ghost" data-action="rever-plano">${svgIcon("leaf", { size: 18 })} Rever meu plano</button>
+    </div>
+    <p style="color:var(--text-faint);font-size:0.76rem;max-width:40ch;margin:2px auto 0">Compartilhar é totalmente opcional e só acontece se você decidir copiar e enviar seu próprio resumo.</p>
+  </div>
+`;
+
+/* ---------------------------------------------------------------------- */
+/* AÇÕES (delegação de clique)                                              */
+/* ---------------------------------------------------------------------- */
+function atualizarBotao(action, habilitado) {
+  const btn = document.querySelector(`[data-action="${action}"]`);
+  if (btn) btn.disabled = !habilitado;
+}
+
+const ACTIONS = {
+  start: () => irPara("estrada"),
+
+  "estrada-select": (t) => {
+    STATE.estrada = t.dataset.id;
+    render();
+  },
+  "estrada-continuar": () => {
+    if (!STATE.estrada) return;
+    irPara("pesos");
+  },
+
+  "pesos-toggle": (t) => {
+    const id = t.dataset.id;
+    const i = STATE.pesosTemas.indexOf(id);
+    if (i >= 0) STATE.pesosTemas.splice(i, 1);
+    else STATE.pesosTemas.push(id);
+    render();
+  },
+  "pesos-continuar": () => {
+    if (verificarSeguranca(STATE.pesosDetalhe)) return;
+    iniciarCategorias();
+  },
+
+  "gate-sim": () => {
+    STATE.relacaoAplica = true;
+    prepararTelaCategoriaAtual(false);
+  },
+  "gate-nao": () => {
+    STATE.relacaoAplica = false;
+    STATE.catPointer += 1;
+    prepararTelaCategoriaAtual(false);
+  },
+
+  "scale-select": (t) => {
+    const q = Number(t.dataset.q);
+    const v = Number(t.dataset.val);
+    STATE.bufferCategoria[q] = v;
+    render();
+  },
+  "categoria-continuar": () => {
+    if (STATE.bufferCategoria.some((v) => v === null)) return;
+    avancarCategoria();
+  },
+
+  "ir-devolutiva": () => irPara("devolutiva"),
+  "ir-sustentacao": () => irPara("sustentacao"),
+  "ir-melhoria": () => irPara("melhoria"),
+  "ir-plano": () => irPara("plano"),
+  "ir-final": () => irPara("final"),
+
+  "abrir-exercicio": () => abrirExercicio(STATE.screen),
+
+  "ex-situacao-continuar": () => {
+    if (!STATE.exercicio.situacao.trim()) return;
+    if (verificarSeguranca(STATE.exercicio.situacao)) return;
+    STATE.exercicio.subStep = 1;
+    render();
+  },
+  "ex-pensamento-continuar": () => {
+    if (!STATE.exercicio.pensamento.trim()) return;
+    if (verificarSeguranca(STATE.exercicio.pensamento)) return;
+    STATE.exercicio.subStep = 2;
+    render();
+  },
+  "ex-emocao-select": (t) => {
+    STATE.exercicio.emocao = t.dataset.e;
+    render();
+  },
+  "ex-emocao-continuar": () => {
+    if (!STATE.exercicio.emocao) return;
+    STATE.exercicio.subStep = 3;
+    render();
+  },
+  "ex-comportamento-continuar": () => {
+    if (!STATE.exercicio.comportamento.trim()) return;
+    if (verificarSeguranca(STATE.exercicio.comportamento)) return;
+    STATE.exercicio.subStep = 4;
+    render();
+  },
+  "ex-socratico-continuar": () => {
+    STATE.exercicio.subStep = 5;
+    render();
+  },
+  "ex-pedir-ajuda-ia": async () => {
+    await CAPS_READY;
+    if (!STATE.caps.sample) {
+      STATE.exercicio.sugestaoStatus = "unavailable";
+      render();
+      return;
+    }
+    STATE.exercicio.sugestaoStatus = "loading";
+    render();
+    try {
+      const prompt = construirPromptSocraticoSugestao(STATE.exercicio.situacao, STATE.exercicio.pensamento, STATE.exercicio.emocao);
+      const { text } = await STATE.caps.sample(prompt, { modelTier: "quick" });
+      STATE.exercicio.sugestaoTexto = text;
+      STATE.exercicio.sugestaoStatus = "done";
+    } catch (e) {
+      STATE.exercicio.sugestaoStatus = "unavailable";
+    }
+    render();
+  },
+  "ex-finalizar": () => {
+    if (!STATE.exercicio.alternativo.trim()) return;
+    if (verificarSeguranca(STATE.exercicio.alternativo)) return;
+    STATE.exercicio.subStep = 6;
+    render();
+  },
+  "ex-concluir": () => {
+    const prev = STATE.history.pop();
+    STATE.screen = prev || "melhoria";
+    render();
+    window.scrollTo({ top: 0, behavior: "auto" });
+  },
+
+  "plano-salvar": () => {
+    STATE.plano.salvo = true;
+    render();
+  },
+
+  "abrir-chat": () => abrirChat(),
+  "fechar-chat": () => fecharChat(),
+  "compartilhar-resumo": () => abrirResumoCompartilhavel(),
+  "fechar-compartilhar": () => fecharResumoCompartilhavel(),
+  "copiar-resumo": () => copiarResumoCompartilhavel(),
+  "chat-sugestao": (t) => enviarMensagemChat(t.dataset.msg),
+  "chat-enviar": () => {
+    const input = document.getElementById("chat-input");
+    if (!input) return;
+    const val = input.value;
+    input.value = "";
+    enviarMensagemChat(val);
+  },
+
+  "rever-plano": () => irPara("plano"),
+  "baixar-pdf": () => gerarPdfEBaixar(),
+
+  voltar: () => voltar(),
+  "fechar-seguranca": () => fecharAvisoSeguranca(),
+  "reabrir-seguranca": () => {
+    STATE.safety.showOverlay = true;
+    render();
+  },
+};
+
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-action]");
+  if (!t) return;
+  const fn = ACTIONS[t.dataset.action];
+  if (fn) fn(t, e);
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && e.target && e.target.id === "chat-input") {
+    e.preventDefault();
+    ACTIONS["chat-enviar"]();
+  }
+});
+
+/* ---------------------------------------------------------------------- */
+/* CAMPOS DE TEXTO / SLIDERS (não disparam re-render completo)              */
+/* ---------------------------------------------------------------------- */
+document.addEventListener("input", (e) => {
+  const id = e.target.id;
+  if (!id) return;
+  switch (id) {
+    case "pesos-detalhe":
+      STATE.pesosDetalhe = e.target.value;
+      break;
+    case "ex-situacao":
+      STATE.exercicio.situacao = e.target.value;
+      atualizarBotao("ex-situacao-continuar", e.target.value.trim().length > 0);
+      break;
+    case "ex-pensamento":
+      STATE.exercicio.pensamento = e.target.value;
+      atualizarBotao("ex-pensamento-continuar", e.target.value.trim().length > 0);
+      break;
+    case "ex-comportamento":
+      STATE.exercicio.comportamento = e.target.value;
+      atualizarBotao("ex-comportamento-continuar", e.target.value.trim().length > 0);
+      break;
+    case "ex-alternativo":
+      STATE.exercicio.alternativo = e.target.value;
+      atualizarBotao("ex-finalizar", e.target.value.trim().length > 0);
+      break;
+    case "ex-intensidade": {
+      STATE.exercicio.intensidade = Number(e.target.value);
+      const lbl = e.target.parentElement.querySelector(".tabular");
+      if (lbl) lbl.textContent = e.target.value;
+      break;
+    }
+    case "plano-objetivo":
+      STATE.plano.objetivo = e.target.value;
+      break;
+    case "plano-acao":
+      STATE.plano.acao = e.target.value;
+      break;
+    case "plano-quando":
+      STATE.plano.quando = e.target.value;
+      break;
+    case "plano-avaliacao":
+      STATE.plano.avaliacao = e.target.value;
+      break;
+    case "plano-humor-antes": {
+      STATE.plano.humorAntes = Number(e.target.value);
+      const lbl = e.target.parentElement.querySelector(".tabular");
+      if (lbl) lbl.textContent = e.target.value;
+      break;
+    }
+    case "plano-humor-depois": {
+      STATE.plano.humorDepois = Number(e.target.value);
+      const lbl = e.target.parentElement.querySelector(".tabular");
+      if (lbl) lbl.textContent = e.target.value;
+      break;
+    }
+    case "plano-area":
+      STATE.plano.area = e.target.value;
+      break;
+    default:
+      if (id.startsWith("ex-refl-")) {
+        const idx = Number(id.replace("ex-refl-", ""));
+        STATE.exercicio.reflexoes[idx] = e.target.value;
+      }
+  }
+});
+
+document.addEventListener("change", (e) => {
+  if (e.target.id === "plano-area") STATE.plano.area = e.target.value;
+});
+
+/* ---------------------------------------------------------------------- */
+/* BOOT                                                                     */
+/* ---------------------------------------------------------------------- */
+CAPS_READY = initCapabilities();
+render();
+
+</script>
+<script>
+/* ==========================================================================
+   MINHA RODA DA VIDA | GRUPO LC — geração do PDF (jsPDF, client-side)
+   ========================================================================== */
+
+const PDF_COLORS_FIXAS = {
+  line: "rgba(19,40,74,0.15)",
+  text: "#47546E",
+  accent: "#C9A227",
+  surface: "#FFFFFF",
+  sustain: "#2E8B76",
+  balance: "#3E6FA6",
+  attention: "#B8722E",
+  reflect: "#A24B42",
+};
+
+function limitarTexto(texto, maxChars) {
+  if (!texto || texto.length <= maxChars) return texto;
+  const corte = texto.slice(0, maxChars);
+  const ultimoEspaco = corte.lastIndexOf(" ");
+  return corte.slice(0, ultimoEspaco > 0 ? ultimoEspaco : maxChars) + "…";
+}
+
+function gerarImagemRadarParaPdf() {
+  const canvas = document.createElement("canvas");
+  desenharRadar(canvas, STATE.scores, { fixedSize: 480, colors: PDF_COLORS_FIXAS });
+  return canvas.toDataURL("image/png");
+}
+
+function pdfAddFooter(doc, pageNum, totalPages, larguraUtil, margem, alturaPagina) {
+  doc.setDrawColor(201, 162, 39);
+  doc.setLineWidth(0.3);
+  doc.line(margem, alturaPagina - 16, margem + larguraUtil, alturaPagina - 16);
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(7.5);
+  doc.setTextColor(122, 134, 158);
+  const linhas = doc.splitTextToSize(RODA_META.disclaimer, larguraUtil);
+  doc.text(linhas, margem, alturaPagina - 11);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8);
+  doc.text(String(pageNum) + " / " + String(totalPages), margem + larguraUtil, alturaPagina - 11, { align: "right" });
+}
+
+function pdfHeading(doc, texto, x, y) {
+  doc.setFont("times", "bold");
+  doc.setFontSize(20);
+  doc.setTextColor(19, 40, 74);
+  doc.text(texto, x, y);
+  doc.setDrawColor(201, 162, 39);
+  doc.setLineWidth(1.1);
+  doc.line(x, y + 3.2, x + 34, y + 3.2);
+}
+
+function pdfSectionTitle(doc, texto, x, y) {
+  doc.setFont("times", "bold");
+  doc.setFontSize(13.5);
+  doc.setTextColor(19, 40, 74);
+  doc.text(texto, x, y);
+}
+
+async function construirPdfBlob() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const margem = 18;
+  const larguraPagina = 210;
+  const alturaPagina = 297;
+  const larguraUtil = larguraPagina - margem * 2;
+  const TOTAL_PAGINAS = 4;
+  let y;
+
+  /* ---------------- PÁGINA 1 ---------------- */
+  pdfHeading(doc, "Minha Roda da Vida", margem, 28);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(71, 84, 110);
+  doc.text("Grupo LC · Saúde Mental & Saúde Existencial", margem, 36);
+  doc.text(formatarDataHoje(), margem, 41.5);
+
+  const imgRadar = gerarImagemRadarParaPdf();
+  const imgSizeMm = 92;
+  const imgX = (larguraPagina - imgSizeMm) / 2;
+  doc.addImage(imgRadar, "PNG", imgX, 47, imgSizeMm, imgSizeMm);
+
+  y = 47 + imgSizeMm + 10;
+  pdfSectionTitle(doc, "Pontuações por área (escala de 1 a 10)", margem, y);
+  y += 6;
+  const ordenadas = CATEGORIAS.map((c) => STATE.scores[c.id]).filter(Boolean);
+  doc.setFontSize(9.5);
+  const colWidth = larguraUtil / 2;
+  ordenadas.forEach((s, i) => {
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const px = margem + col * colWidth;
+    const py = y + row * 6.4;
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(19, 40, 74);
+    doc.text(s.titulo, px, py);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(71, 84, 110);
+    doc.text(s.media.toFixed(1).replace(".", ","), px + colWidth - 10, py, { align: "right" });
+  });
+  y += Math.ceil(ordenadas.length / 2) * 6.4 + 8;
+
+  if (STATE.estrada) {
+    const opcao = ESTRADA_OPCOES.find((o) => o.id === STATE.estrada);
+    if (opcao) {
+      pdfSectionTitle(doc, "Minha estrada atual", margem, y);
+      y += 6.5;
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10.5);
+      doc.setTextColor(19, 40, 74);
+      doc.text(opcao.numero + " · " + opcao.titulo, margem, y);
+      y += 5.5;
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(9.5);
+      doc.setTextColor(71, 84, 110);
+      const linhasFrase = doc.splitTextToSize(opcao.frase, larguraUtil);
+      doc.text(linhasFrase, margem, y);
+    }
+  }
+  pdfAddFooter(doc, 1, TOTAL_PAGINAS, larguraUtil, margem, alturaPagina);
+
+  /* ---------------- PÁGINA 2 — Minha leitura ---------------- */
+  doc.addPage();
+  pdfHeading(doc, "Minha leitura", margem, 28);
+  y = 40;
+
+  pdfSectionTitle(doc, "O que está sustentando você", margem, y);
+  y += 7;
+  doc.setFontSize(9.5);
+  STATE.sustentacao.forEach((s) => {
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(19, 40, 74);
+    doc.text(s.titulo + " — " + s.media.toFixed(1).replace(".", ","), margem, y);
+    y += 5;
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(71, 84, 110);
+    const linhas = doc.splitTextToSize(s.texto, larguraUtil);
+    doc.text(linhas, margem, y);
+    y += linhas.length * 4.4 + 4;
+  });
+
+  y += 3;
+  pdfSectionTitle(doc, "Áreas que merecem sua atenção", margem, y);
+  y += 7;
+  STATE.melhoria.forEach((m) => {
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(19, 40, 74);
+    doc.text(m.titulo + " — " + m.media.toFixed(1).replace(".", ","), margem, y);
+    y += 5;
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(71, 84, 110);
+    const linhas = doc.splitTextToSize(m.interpretacao, larguraUtil);
+    doc.text(linhas, margem, y);
+    y += linhas.length * 4.4 + 4;
+  });
+
+  y += 3;
+  pdfSectionTitle(doc, "Síntese", margem, y);
+  y += 6.5;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9.5);
+  doc.setTextColor(22, 33, 58);
+  const textoSintese = limitarTexto(STATE.devolutiva.texto || "", 900);
+  const linhasSintese = doc.splitTextToSize(textoSintese, larguraUtil);
+  doc.text(linhasSintese, margem, y);
+  pdfAddFooter(doc, 2, TOTAL_PAGINAS, larguraUtil, margem, alturaPagina);
+
+  /* ---------------- PÁGINA 3 — Ideias para cuidar de mim ---------------- */
+  doc.addPage();
+  pdfHeading(doc, "Ideias para cuidar de mim", margem, 28);
+  y = 42;
+  STATE.melhoria.forEach((m) => {
+    pdfSectionTitle(doc, m.titulo, margem, y);
+    y += 6.5;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.5);
+    doc.setTextColor(22, 33, 58);
+    m.dicas.forEach((dica) => {
+      const linhas = doc.splitTextToSize("•  " + dica, larguraUtil - 2);
+      doc.text(linhas, margem, y);
+      y += linhas.length * 4.6 + 2;
+    });
+    y += 5;
+  });
+  pdfAddFooter(doc, 3, TOTAL_PAGINAS, larguraUtil, margem, alturaPagina);
+
+  /* ---------------- PÁGINA 4 — Meu pequeno experimento ---------------- */
+  doc.addPage();
+  pdfHeading(doc, "Meu pequeno experimento", margem, 28);
+  y = 44;
+  if (STATE.plano.salvo) {
+    const cat = CATEGORIAS.find((c) => c.id === STATE.plano.area);
+    const linhas4 = [
+      ["Área", (cat ? cat.titulo : "")],
+      ["Objetivo", STATE.plano.objetivo || "—"],
+      ["Pequena ação", STATE.plano.acao || "—"],
+      ["Quando", STATE.plano.quando || "—"],
+      ["Como vou avaliar", STATE.plano.avaliacao || "—"],
+      ["Humor antes", STATE.plano.humorAntes + "/10"],
+      ["Humor depois", (STATE.plano.humorDepois ?? "—") + (STATE.plano.humorDepois !== null ? "/10" : "")],
+    ];
+    linhas4.forEach(([rotulo, valor]) => {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10);
+      doc.setTextColor(19, 40, 74);
+      doc.text(rotulo, margem, y);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(22, 33, 58);
+      const linhasValor = doc.splitTextToSize(String(valor), larguraUtil - 45);
+      doc.text(linhasValor, margem + 45, y);
+      y += Math.max(6.5, linhasValor.length * 4.6 + 2);
+      doc.setDrawColor(230, 224, 200);
+      doc.setLineWidth(0.2);
+      doc.line(margem, y - 2.5, margem + larguraUtil, y - 2.5);
+    });
+  } else {
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(10.5);
+    doc.setTextColor(71, 84, 110);
+    doc.text("Você optou por não montar um experimento desta vez — e tudo bem.", margem, y);
+    doc.text("Você pode voltar a este espaço sempre que fizer sentido.", margem, y + 6);
+    y += 20;
+  }
+
+  y += 26;
+  doc.setDrawColor(201, 162, 39);
+  doc.setLineWidth(0.4);
+  doc.line(margem, y, margem + 30, y);
+  y += 10;
+  doc.setFont("times", "bolditalic");
+  doc.setFontSize(13);
+  doc.setTextColor(19, 40, 74);
+  doc.text("Você não precisa mudar tudo de uma vez.", margem, y);
+  y += 8;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(71, 84, 110);
+  const linhasFinais = doc.splitTextToSize(
+    "Escolher uma pequena ação possível já pode ser uma forma de começar a cuidar daquilo que hoje pede mais atenção.",
+    larguraUtil - 40
+  );
+  doc.text(linhasFinais, margem, y);
+
+  pdfAddFooter(doc, 4, TOTAL_PAGINAS, larguraUtil, margem, alturaPagina);
+
+  return doc.output("blob");
+}
+
+let pdfEmAndamento = false;
+async function gerarPdfEBaixar() {
+  if (pdfEmAndamento) return;
+  pdfEmAndamento = true;
+  const btn = document.querySelector('[data-action="baixar-pdf"]');
+  const original = btn ? btn.innerHTML : "";
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = "Preparando seu PDF...";
+  }
+  try {
+    const blob = await construirPdfBlob();
+    await CAPS_READY;
+    if (STATE.caps.downloads) {
+      try {
+        await STATE.caps.downloads.save({ filename: "minha-roda-da-vida.pdf", data: blob });
+      } catch (e) {
+        mostrarToast("Não foi possível salvar o PDF agora. Você pode tentar novamente.");
+      }
+    } else {
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank");
+    }
+  } catch (e) {
+    mostrarToast("Houve um problema ao gerar o PDF. Tente novamente em instantes.");
+  }
+  if (btn) {
+    btn.disabled = false;
+    btn.innerHTML = original;
+  }
+  pdfEmAndamento = false;
+}
+
+function mostrarToast(msg) {
+  let t = document.getElementById("app-toast");
+  if (!t) {
+    t = document.createElement("div");
+    t.id = "app-toast";
+    t.style.cssText =
+      "position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--navy-800);color:#fff;padding:12px 18px;border-radius:12px;font-size:0.86rem;z-index:300;max-width:88vw;text-align:center;box-shadow:0 12px 30px -14px rgba(0,0,0,.5)";
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = "1";
+  clearTimeout(t._hideTimer);
+  t._hideTimer = setTimeout(() => {
+    t.style.transition = "opacity .4s ease";
+    t.style.opacity = "0";
+  }, 3600);
+}
+
+</script>
